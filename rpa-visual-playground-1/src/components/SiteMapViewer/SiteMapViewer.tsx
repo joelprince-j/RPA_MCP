@@ -12,6 +12,7 @@ export const SiteMapViewer: React.FC = () => {
     setLoadingSiteMap,
     selectedPageIndex,
     setSelectedPageIndex,
+    selectedStepId,
   } = useFlowStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
@@ -208,9 +209,23 @@ export const SiteMapViewer: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {filteredElements && filteredElements.length > 0 ? (
           <>
-            <p className="text-xs text-gray-500 mb-2">
-              Click any element to add it to your flow
-            </p>
+            <div className={`text-xs mb-3 p-2 rounded-lg ${
+              selectedStepId !== null 
+                ? 'bg-blue-50 border border-blue-200 text-blue-700' 
+                : 'bg-gray-50 border border-gray-200 text-gray-600'
+            }`}>
+              {selectedStepId !== null ? (
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold">🎯 Update Mode:</span>
+                  <span>Click any element to update Step {selectedStepId}</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold">➕ Add Mode:</span>
+                  <span>Click any element to add a new step</span>
+                </div>
+              )}
+            </div>
             {filteredElements.map((element) => (
               <ElementCard key={element.elementId} element={element} />
             ))}

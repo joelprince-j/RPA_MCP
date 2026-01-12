@@ -41,7 +41,7 @@ const ELEMENT_COLORS = {
 };
 
 export const ElementCard: React.FC<ElementCardProps> = ({ element }) => {
-  const { addStep, setSelectedElement } = useFlowStore();
+  const { addStep, setSelectedElement, selectedStepId, updateStep } = useFlowStore();
 
   const Icon = ELEMENT_ICONS[element.type] || MousePointer2;
   const colorClass = ELEMENT_COLORS[element.type] || ELEMENT_COLORS.unknown;
@@ -55,25 +55,42 @@ export const ElementCard: React.FC<ElementCardProps> = ({ element }) => {
       action = 'select';
     }
 
-    addStep({
+    const stepData = {
       action,
       params: {
         elementId: element.elementId,
         selectors: element.selectors,
+        timeout: 30000,
       },
       description: `${action.charAt(0).toUpperCase() + action.slice(1)} ${
         element.textContent || element.elementId
       }`,
-    });
+    };
+
+    // If a step is selected, update it instead of adding new
+    if (selectedStepId !== null) {
+      updateStep(selectedStepId, stepData);
+    } else {
+      // Otherwise add a new step
+      addStep(stepData);
+    }
 
     setSelectedElement(element);
   };
 
   return (
     <div
-      className={`border rounded-lg p-3 ${colorClass} hover:shadow-md transition-all cursor-pointer group`}
+      className={`border rounded-lg p-3 ${colorClass} hover:shadow-md transition-all cursor-pointer group relative`}
       onClick={handleAddToFlow}
+      title={selectedStepId !== null ? `Click to update Step ${selectedStepId}` : 'Click to add new step'}
     >
+      {/* Update indicator badge */}
+      {selectedStepId !== null && (
+        <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full shadow-lg font-semibold z-10">
+          Update Step {selectedStepId}
+        </div>
+      )}
+      
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-0.5">
           <Icon size={18} />

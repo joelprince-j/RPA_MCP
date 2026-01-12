@@ -147,6 +147,7 @@ import {
 interface StepNodeProps {
   data: {
     step: FlowStep;
+    isSwapMode?: boolean;
   };
   selected?: boolean;
 }
@@ -174,7 +175,7 @@ const ACTION_COLORS = {
 };
 
 export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
-  const { step } = data;
+  const { step, isSwapMode } = data;
   const Icon = ACTION_ICONS[step.action];
   const colorClass = ACTION_COLORS[step.action];
 
@@ -182,6 +183,8 @@ export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
     <div
       className={`rounded-lg border-2 ${colorClass} p-4 min-w-[250px] max-w-[300px] shadow-md transition-all ${
         selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-lg' : ''
+      } ${
+        isSwapMode ? 'ring-4 ring-orange-500 ring-offset-2 shadow-2xl animate-pulse' : ''
       }`}
     >
       <Handle

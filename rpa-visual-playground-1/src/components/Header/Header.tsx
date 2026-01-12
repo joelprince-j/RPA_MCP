@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useFlowStore } from '../../store/flowStore'
 import { exportFlowToJSON, importFlowFromJSON, exportFlowToPython } from '../../services/flowExporter'
-import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw } from 'lucide-react'
+import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw, FileJson } from 'lucide-react'
 import { flowApi, executionApi } from '../../services/api';
 
 export default function Header() {
@@ -17,6 +17,7 @@ export default function Header() {
     isExtractingPage,
     setExtractingPage,
     mergePageIntoSiteMap,
+    setJsonEditorOpen,
   } = useFlowStore()
   const [showSettings, setShowSettings] = useState(false)
 
@@ -265,6 +266,14 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
           >
             {isPreviewOpen ? <EyeOff size={16} /> : <Eye size={16} />}
             <span className="hidden sm:inline">Preview</span>
+          </button>
+          <button
+            onClick={() => setJsonEditorOpen(true)}
+            className="flex items-center gap-2 px-3 py-2 transition-colors bg-purple-600 rounded hover:bg-purple-700"
+            title="Open JSON Editor"
+          >
+            <FileJson size={16} />
+            <span className="hidden sm:inline">JSON</span>
           </button>
           <label className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded cursor-pointer hover:bg-gray-600">
             <Upload size={16} />

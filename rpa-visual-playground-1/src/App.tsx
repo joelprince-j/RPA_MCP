@@ -40,6 +40,7 @@ import { StepConfigPanel } from './components/StepConfigPanel/StepConfigPanel';
 import { SiteMapViewer } from './components/SiteMapViewer/SiteMapViewer';
 import { FlowPreview } from './components/FlowPreview/FlowPreview';
 import { PageTransitionModal } from './components/PageTransitionModal/PageTransitionModal';
+import { JsonEditor } from './components/JsonEditor/JsonEditor';
 import { useFlowStore } from './store/flowStore';
 
 function App() {
@@ -96,6 +97,9 @@ function App() {
 
       {/* Flow Preview Overlay */}
       <FlowPreview />
+
+      {/* JSON Editor Modal */}
+      <JsonEditor />
 
       {/* Page Transition Modal */}
       <PageTransitionModal />
