@@ -3,7 +3,6 @@ import { SiteMapController } from '../controllers/SiteMapController';
 import { FlowController } from '../controllers/FlowController';
 
 const router = Router();
-
 // Site map routes
 router.post('/site-maps', SiteMapController.createSiteMap);
 router.get('/site-maps/:siteMapId', SiteMapController.getSiteMap);
