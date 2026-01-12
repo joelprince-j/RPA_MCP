@@ -98,7 +98,13 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   // Flow
   flow: null,
-  setFlow: (flow) => set({ flow, steps: flow.steps }),
+  setFlow: (flow) => set({ 
+    flow, 
+    steps: flow.steps,
+    // Initialize history with the flow steps
+    history: [JSON.parse(JSON.stringify(flow.steps))],
+    historyIndex: 0,
+  }),
   updateFlowMetadata: (metadata) => {
     const currentFlow = get().flow;
     if (currentFlow) {
@@ -115,17 +121,29 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   saveHistory: () => {
     const { steps, history, historyIndex } = get();
+    
+    // Check if current state is already saved (avoid duplicates)
+    const currentStateStr = JSON.stringify(steps);
+    const lastSavedStateStr = JSON.stringify(history[historyIndex]);
+    
+    if (currentStateStr === lastSavedStateStr) {
+      // Current state already saved, don't duplicate
+      return;
+    }
+    
     // Remove any future history if we're not at the end
     const newHistory = history.slice(0, historyIndex + 1);
-    // Add current state
+    // Add current state (before the change)
     newHistory.push(JSON.parse(JSON.stringify(steps)));
+    
     // Limit history to 50 states
     if (newHistory.length > 50) {
       newHistory.shift();
+      // Don't increment index if we removed from start
+      set({ history: newHistory });
     } else {
-      set({ historyIndex: historyIndex + 1 });
+      set({ history: newHistory, historyIndex: newHistory.length - 1 });
     }
-    set({ history: newHistory });
   },
 
   undo: () => {
@@ -156,7 +174,6 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     return historyIndex < history.length - 1;
   },
   addStep: (stepData) => {
-    get().saveHistory();
     const steps = get().steps;
     const newStepId = steps.length > 0 ? Math.max(...steps.map(s => s.stepId)) + 1 : 1;
     
@@ -170,11 +187,14 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       description: stepData?.description || '',
     };
 
-    set({ steps: [...steps, newStep], selectedStepId: newStepId });
+    const newSteps = [...steps, newStep];
+    set({ steps: newSteps, selectedStepId: newStepId });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   insertStepBefore: (stepId, stepData) => {
-    get().saveHistory();
     const steps = get().steps;
     const targetIndex = steps.findIndex(s => s.stepId === stepId);
     
@@ -200,10 +220,12 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }));
 
     set({ steps: renumberedSteps, selectedStepId: targetIndex + 1 });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   insertStepAfter: (stepId, stepData) => {
-    get().saveHistory();
     const steps = get().steps;
     const targetIndex = steps.findIndex(s => s.stepId === stepId);
     
@@ -229,18 +251,22 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }));
 
     set({ steps: renumberedSteps, selectedStepId: targetIndex + 2 });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   updateStep: (stepId, updatedStep) => {
-    get().saveHistory();
     const steps = get().steps.map((step) =>
       step.stepId === stepId ? { ...step, ...updatedStep } : step
     );
     set({ steps });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   removeStep: (stepId) => {
-    get().saveHistory();
     const steps = get().steps.filter((step) => step.stepId !== stepId);
     
     // Renumber steps
@@ -253,10 +279,12 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       steps: renumberedSteps,
       selectedStepId: null,
     });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   reorderSteps: (fromIndex, toIndex) => {
-    get().saveHistory();
     const steps = [...get().steps];
     const [removed] = steps.splice(fromIndex, 1);
     steps.splice(toIndex, 0, removed);
@@ -268,10 +296,12 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }));
 
     set({ steps: renumberedSteps });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   swapSteps: (stepId1, stepId2) => {
-    get().saveHistory();
     const steps = [...get().steps];
     const index1 = steps.findIndex(s => s.stepId === stepId1);
     const index2 = steps.findIndex(s => s.stepId === stepId2);
@@ -288,10 +318,12 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     }));
 
     set({ steps: renumberedSteps, swapModeStepId: null });
+    
+    // Save the NEW state to history AFTER making changes
+    get().saveHistory();
   },
 
   duplicateStep: (stepId) => {
-    get().saveHistory();
     const steps = get().steps;
     const stepToDuplicate = steps.find(s => s.stepId === stepId);
     
@@ -304,6 +336,9 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       };
 
       set({ steps: [...steps, duplicatedStep] });
+      
+      // Save the NEW state to history AFTER making changes
+      get().saveHistory();
     }
   },
 
@@ -364,6 +399,9 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       flow: flowJson,
       steps: flowJson.steps,
       selectedStepId: null,
+      // Initialize history with the imported steps
+      history: [JSON.parse(JSON.stringify(flowJson.steps))],
+      historyIndex: 0,
     });
   },
 

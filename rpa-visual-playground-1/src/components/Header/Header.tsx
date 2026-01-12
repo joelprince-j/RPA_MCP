@@ -275,16 +275,16 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
             <FileJson size={16} />
             <span className="hidden sm:inline">JSON</span>
           </button>
-          <label className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded cursor-pointer hover:bg-gray-600">
+          {/* <label className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded cursor-pointer hover:bg-gray-600">
             <Upload size={16} />
             <span className="hidden sm:inline">Import</span>
             <input type="file" accept=".json" onChange={handleImport} className="hidden" />
-          </label>
+          </label> */}
           <div className="relative group">
-            <button className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600">
+            {/* <button className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600">
               <Download size={16} />
               <span className="hidden sm:inline">Export</span>
-            </button>
+            </button> */}
             <div className="absolute right-0 z-50 invisible w-48 mt-1 transition-all bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible">
               <button
                 onClick={handleExportJSON}

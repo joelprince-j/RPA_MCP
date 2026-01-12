@@ -431,6 +431,7 @@ export const FlowBuilder: React.FC = () => {
             onConnect={onConnect}
             onNodeClick={handleNodeClick}
             onNodeContextMenu={handleNodeContextMenu}
+            onPaneClick={() => setContextMenu(null)}
             nodeTypes={nodeTypes}
             nodesDraggable={true}
             nodesConnectable={true}
@@ -475,6 +476,10 @@ export const FlowBuilder: React.FC = () => {
           onAddAfter={handleAddAfter}
           onCopy={handleCopyStep}
           onDelete={handleDeleteSelected}
+          onUndo={undo}
+          onRedo={redo}
+          canUndo={canUndo()}
+          canRedo={canRedo()}
         />
       )}
 
