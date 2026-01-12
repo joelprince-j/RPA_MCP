@@ -1,0 +1,28 @@
+{
+  "flowId": "flow_1767597243106",
+  "name": "Untitled Flow",
+  "description": "",
+  "startUrl": "https://example.com",
+  "steps": [
+    {
+      "stepId": 1,
+      "action": "click",
+      "params": {
+        "timeout": 30000,
+        "elementId": "elem_1",
+        "selectors": {
+          "css": "a",
+          "xpath": "//a[1]",
+          "text": "Learn more"
+        }
+      },
+      "description": "Click Learn more"
+    }
+  ],
+  "variables": {},
+  "errorHandling": {
+    "maxRetries": 3,
+    "screenshotOnError": true,
+    "fallbackSelectors": true
+  }
+}

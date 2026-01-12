@@ -1,0 +1,26 @@
+{
+  "executionId": "9c75b7c3-db64-42c2-9f7f-2254a9304b3a",
+  "flowId": "flow_1767805758496",
+  "status": "failed",
+  "startTime": "2026-01-07T17:09:18.539Z",
+  "stepsCompleted": 0,
+  "totalSteps": 3,
+  "errors": [
+    {
+      "stepId": 1,
+      "action": "input",
+      "error": "page.waitForSelector: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('#email') to be visible\u001b[22m\n",
+      "timestamp": "2026-01-07T17:09:46.574Z"
+    },
+    {
+      "stepId": 0,
+      "action": "initialization",
+      "error": "page.screenshot: Target page, context or browser has been closed",
+      "timestamp": "2026-01-07T17:09:46.576Z"
+    }
+  ],
+  "screenshots": [],
+  "extractedData": {},
+  "endTime": "2026-01-07T17:09:46.576Z",
+  "duration": 28037
+}

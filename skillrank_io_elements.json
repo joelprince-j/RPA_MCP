@@ -1,0 +1,281 @@
+{
+  "metadata": {
+    "title": "SkillRank - Skill Assessment Platform",
+    "url": "https://skillrank.io/",
+    "domain": "skillrank.io",
+    "protocol": "https:",
+    "pathname": "/",
+    "documentHeight": 7200,
+    "documentWidth": 1536,
+    "viewportHeight": 754,
+    "viewportWidth": 1536,
+    "scrollY": 0,
+    "scrollX": 0,
+    "totalElements": 459,
+    "extractedElements": 459,
+    "extractedAt": "2024-12-19T10:30:00.000Z"
+  },
+  "head": {
+    "metaTags": [
+      {
+        "charset": "utf-8"
+      },
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1"
+      },
+      {
+        "name": "description",
+        "content": "Skill assessment and ranking platform for technical professionals"
+      },
+      {
+        "name": "keywords",
+        "content": "skill assessment, technical skills, programming tests, coding challenges"
+      },
+      {
+        "property": "og:title",
+        "content": "SkillRank - Skill Assessment Platform"
+      },
+      {
+        "property": "og:description",
+        "content": "Comprehensive skill assessment platform for technical professionals"
+      },
+      {
+        "property": "og:type",
+        "content": "website"
+      },
+      {
+        "property": "og:url",
+        "content": "https://skillrank.io"
+      }
+    ],
+    "linkTags": [
+      {
+        "rel": "stylesheet",
+        "href": "/css/bootstrap.min.css"
+      },
+      {
+        "rel": "stylesheet",
+        "href": "/css/main.css"
+      },
+      {
+        "rel": "icon",
+        "type": "image/x-icon",
+        "href": "/favicon.ico"
+      }
+    ],
+    "scripts": [
+      {
+        "attributes": {
+          "src": "/js/jquery.min.js"
+        },
+        "hasContent": false,
+        "contentLength": 0
+      },
+      {
+        "attributes": {
+          "src": "/js/bootstrap.min.js"
+        },
+        "hasContent": false,
+        "contentLength": 0
+      },
+      {
+        "attributes": {
+          "src": "/js/main.js"
+        },
+        "hasContent": false,
+        "contentLength": 0
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": 0,
+      "tagName": "html",
+      "attributes": {
+        "lang": "en"
+      },
+      "textContent": "SkillRank - Skill Assessment Platform",
+      "className": "",
+      "id_attr": "",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "width": 1536,
+        "height": 7200,
+        "top": 0,
+        "left": 0,
+        "right": 1536,
+        "bottom": 7200
+      },
+      "computedStyles": {
+        "display": "block",
+        "position": "static",
+        "color": "rgb(33, 37, 41)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "fontSize": "16px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+        "margin": "0px",
+        "padding": "0px",
+        "width": "1536px",
+        "height": "7200px",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      "children": 2,
+      "parent": null,
+      "hasText": true,
+      "isVisible": true
+    },
+    {
+      "id": 1,
+      "tagName": "head",
+      "attributes": {},
+      "textContent": "",
+      "className": "",
+      "id_attr": "",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "computedStyles": {
+        "display": "none",
+        "position": "static",
+        "color": "rgb(33, 37, 41)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "fontSize": "16px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+        "margin": "0px",
+        "padding": "0px",
+        "width": "0px",
+        "height": "0px",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      "children": 8,
+      "parent": "html",
+      "hasText": false,
+      "isVisible": false
+    },
+    {
+      "id": 2,
+      "tagName": "body",
+      "attributes": {
+        "class": "bg-light"
+      },
+      "textContent": "SkillRank Professional Skill Assessment Platform Assess Your Skills Take skill assessments in various technologies Get personalized feedback Improve your professional profile",
+      "className": "bg-light",
+      "id_attr": "",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "width": 1536,
+        "height": 7200,
+        "top": 0,
+        "left": 0,
+        "right": 1536,
+        "bottom": 7200
+      },
+      "computedStyles": {
+        "display": "block",
+        "position": "static",
+        "color": "rgb(33, 37, 41)",
+        "backgroundColor": "rgb(248, 249, 250)",
+        "fontSize": "16px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+        "margin": "0px",
+        "padding": "0px",
+        "width": "1536px",
+        "height": "7200px",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      "children": 5,
+      "parent": "html",
+      "hasText": true,
+      "isVisible": true
+    },
+    {
+      "id": 3,
+      "tagName": "nav",
+      "attributes": {
+        "class": "navbar navbar-expand-lg navbar-dark bg-primary"
+      },
+      "textContent": "SkillRank Home Assessments About Contact",
+      "className": "navbar navbar-expand-lg navbar-dark bg-primary",
+      "id_attr": "",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "width": 1536,
+        "height": 72,
+        "top": 0,
+        "left": 0,
+        "right": 1536,
+        "bottom": 72
+      },
+      "computedStyles": {
+        "display": "flex",
+        "position": "relative",
+        "color": "rgba(255, 255, 255, 0.75)",
+        "backgroundColor": "rgb(13, 110, 253)",
+        "fontSize": "16px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+        "margin": "0px",
+        "padding": "8px 16px",
+        "width": "1536px",
+        "height": "72px",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      "children": 1,
+      "parent": "body",
+      "hasText": true,
+      "isVisible": true
+    },
+    {
+      "id": 4,
+      "tagName": "div",
+      "attributes": {
+        "class": "container-fluid"
+      },
+      "textContent": "SkillRank Home Assessments About Contact",
+      "className": "container-fluid",
+      "id_attr": "",
+      "position": {
+        "x": 16,
+        "y": 8,
+        "width": 1504,
+        "height": 56,
+        "top": 8,
+        "left": 16,
+        "right": 1520,
+        "bottom": 64
+      },
+      "computedStyles": {
+        "display": "flex",
+        "position": "static",
+        "color": "rgba(255, 255, 255, 0.75)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "fontSize": "16px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+        "margin": "0px auto",
+        "padding": "0px 12px",
+        "width": "1504px",
+        "height": "56px",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      "children": 3,
+      "parent": "nav",
+      "hasText": true,
+      "isVisible": true
+    }
+  ]
+}

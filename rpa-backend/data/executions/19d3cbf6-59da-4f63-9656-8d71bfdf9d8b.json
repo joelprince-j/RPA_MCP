@@ -1,0 +1,207 @@
+{
+  "executionId": "19d3cbf6-59da-4f63-9656-8d71bfdf9d8b",
+  "flowId": "flow_1767960302485",
+  "status": "partial",
+  "startTime": "2026-01-09T12:05:02.515Z",
+  "stepsCompleted": 2,
+  "totalSteps": 3,
+  "errors": [
+    {
+      "stepId": 2,
+      "action": "input",
+      "error": "page.waitForTimeout: waitTimeout: expected float, got string",
+      "timestamp": "2026-01-09T12:05:07.862Z"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "error_step_2",
+      "path": "C:\\Users\\joelp\\Downloads\\RPA_MCP\\mcp\\rpa-backend\\screenshots\\19d3cbf6-59da-4f63-9656-8d71bfdf9d8b_error_step_2_1767960307862.png",
+      "timestamp": "2026-01-09T12:05:08.111Z"
+    }
+  ],
+  "extractedData": {},
+  "currentPage": {
+    "pageId": "page_e4a251fd-39c2-4c64-a80b-2b3e537ee5a8",
+    "url": "https://skilltap.skillrank.io/dashboard",
+    "title": "SkillTap",
+    "elements": [
+      {
+        "elementId": "elem_1",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.absolute",
+          "xpath": "//button[1]",
+          "text": ""
+        },
+        "attributes": {
+          "class": "absolute -right-3 top-6 bg-blue-500 text-white rounded-full p-1 shadow-md hover:bg-blue-600 transition-all duration-300 hover:scale-110 group"
+        },
+        "position": {
+          "x": 193,
+          "y": 24,
+          "width": 26,
+          "height": 26
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": "<div class=\"relative overflow-hidden w-[18px] h-[18px]\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-lin"
+      },
+      {
+        "elementId": "elem_2",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[2]",
+          "text": "Dashboard"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-900 font-medium\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 89,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Dashboard",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_3",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[3]",
+          "text": "Custom Notes"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 137,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Custom Notes",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_4",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[4]",
+          "text": "Analytics"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 185,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Analytics",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_5",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[5]",
+          "text": "Streak"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 233,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Streak",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_6",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[6]",
+          "text": "Reduce Animations"
+        },
+        "attributes": {
+          "class": "\n        flex items-center justify-center gap-2 px-2 py-2 w-full\n        bg-blue-50/50 text-blue-600\n        hover:bg-blue-100/50\n        rounded-md\n        transition-colors\n        relative\n        overflow-hidden\n      "
+        },
+        "position": {
+          "x": 16,
+          "y": 976,
+          "width": 175,
+          "height": 36
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Reduce Animations",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_7",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[7]",
+          "text": "Logout"
+        },
+        "attributes": {
+          "class": "\n                            flex items-center \n                            justify-center px-4 \n                            w-full py-2 \n                            text-red-600 bg-red-50/50 \n                            hover:bg-red-100 \n                            rounded-md \n                            transition-colors \n                            relative \n                            overflow-hidden \n                            group\n                            mt-2\n                        "
+        },
+        "position": {
+          "x": 16,
+          "y": 1024,
+          "width": 175,
+          "height": 40
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Logout",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      }
+    ],
+    "forms": [],
+    "navigationLinks": [],
+    "loadTime": 0,
+    "hasInfiniteScroll": false,
+    "hasLazyLoading": false
+  },
+  "pageTransitions": [
+    {
+      "stepId": 3,
+      "fromUrl": "https://skilltap.skillrank.io/login/",
+      "toUrl": "https://skilltap.skillrank.io/dashboard",
+      "timestamp": "2026-01-09T12:05:12.201Z"
+    }
+  ],
+  "endTime": "2026-01-09T12:05:14.226Z",
+  "duration": 11711
+}

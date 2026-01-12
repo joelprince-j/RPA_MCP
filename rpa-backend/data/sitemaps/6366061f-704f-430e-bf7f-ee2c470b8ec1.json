@@ -1,0 +1,57 @@
+{
+  "siteMapId": "6366061f-704f-430e-bf7f-ee2c470b8ec1",
+  "baseUrl": "https://example.com",
+  "timestamp": "2026-01-05T07:19:34.535Z",
+  "pages": [
+    {
+      "pageId": "page_2a6e1223-edf5-4df7-8f58-1b8d514595a8",
+      "url": "https://example.com",
+      "title": "Example Domain",
+      "elements": [
+        {
+          "elementId": "elem_1",
+          "type": "link",
+          "tagName": "a",
+          "selectors": {
+            "css": "a",
+            "xpath": "//a[1]",
+            "text": "Learn more"
+          },
+          "attributes": {
+            "href": "https://iana.org/domains/example"
+          },
+          "position": {
+            "x": 256,
+            "y": 206,
+            "width": 91,
+            "height": 19
+          },
+          "visible": true,
+          "interactable": true,
+          "textContent": "Learn more",
+          "innerHTML": "Learn more"
+        }
+      ],
+      "forms": [],
+      "navigationLinks": [
+        "https://iana.org/domains/example"
+      ],
+      "loadTime": 2659,
+      "hasInfiniteScroll": false,
+      "hasLazyLoading": false
+    }
+  ],
+  "globalElements": {
+    "header": [],
+    "navigation": [],
+    "footer": []
+  },
+  "metadata": {
+    "totalPages": 1,
+    "totalElements": 1,
+    "crawlDuration": 3471,
+    "depth": 2,
+    "timestamp": "2026-01-05T07:19:34.542Z"
+  },
+  "version": "1.0"
+}

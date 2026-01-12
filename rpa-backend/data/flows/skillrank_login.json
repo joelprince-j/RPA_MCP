@@ -1,0 +1,82 @@
+{
+  "flowId": "skillrank_login",
+  "name": "SkillRank Login Flow",
+  "description": "Automated login to SkillRank",
+  "startUrl": "https://skilltap.skillrank.io/login/",
+  "steps": [
+    {
+      "stepId": 1,
+      "action": "navigate",
+      "params": {
+        "url": "https://skilltap.skillrank.io/login/",
+        "timeout": 30000
+      },
+      "description": "Navigate to login page"
+    },
+    {
+      "stepId": 2,
+      "action": "wait",
+      "params": {
+        "condition": "element_visible",
+        "selectors": {
+          "css": "#email"
+        },
+        "timeout": 10000
+      },
+      "description": "Wait for email field to be visible"
+    },
+    {
+      "stepId": 3,
+      "action": "input",
+      "params": {
+        "elementId": "email",
+        "selectors": {
+          "css": "#email"
+        },
+        "value": "zakariya.r@skillrank.io",
+        "clearFirst": true,
+        "waitAfter": 500
+      },
+      "description": "Enter email"
+    },
+    {
+      "stepId": 4,
+      "action": "input",
+      "params": {
+        "elementId": "password",
+        "selectors": {
+          "css": "#password"
+        },
+        "value": "YOUR_PASSWORD_HERE",
+        "clearFirst": true,
+        "waitAfter": 500
+      },
+      "description": "Enter password"
+    },
+    {
+      "stepId": 5,
+      "action": "click",
+      "params": {
+        "elementId": "login_button",
+        "selectors": {
+          "css": "button[type=submit]"
+        },
+        "waitAfter": 2000
+      },
+      "description": "Click login button"
+    },
+    {
+      "stepId": 6,
+      "action": "wait",
+      "params": {
+        "condition": "timeout",
+        "timeout": 3000
+      },
+      "description": "Wait for login to complete"
+    }
+  ],
+  "variables": {},
+  "errorHandling": {
+    "stopOnError": false
+  }
+}

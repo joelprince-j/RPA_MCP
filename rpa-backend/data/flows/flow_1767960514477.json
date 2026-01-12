@@ -1,0 +1,69 @@
+{
+  "flowId": "flow_1767960514477",
+  "name": "Untitled Flow",
+  "description": "",
+  "startUrl": "https://skilltap.skillrank.io/login/",
+  "steps": [
+    {
+      "stepId": 1,
+      "action": "input",
+      "params": {
+        "timeout": 30000,
+        "elementId": "email",
+        "selectors": {
+          "css": "#email",
+          "xpath": "//input[@id=\"email\"]",
+          "text": "",
+          "dataTestId": "",
+          "ariaLabel": ""
+        },
+        "waitAfter": "",
+        "value": "joel.j@skillrank.io",
+        "clearFirst": true
+      },
+      "description": "Click email"
+    },
+    {
+      "stepId": 2,
+      "action": "input",
+      "params": {
+        "timeout": 30000,
+        "elementId": "password",
+        "selectors": {
+          "css": "#password",
+          "xpath": "//input[@id=\"password\"]",
+          "text": "",
+          "dataTestId": "",
+          "ariaLabel": ""
+        },
+        "waitAfter": "300",
+        "value": "Tap@110077",
+        "clearFirst": true
+      },
+      "description": "Click password"
+    },
+    {
+      "stepId": 3,
+      "action": "click",
+      "params": {
+        "timeout": 30000,
+        "elementId": "elem_2",
+        "selectors": {
+          "css": "button.relative",
+          "xpath": "//button[2]",
+          "text": "Sign in",
+          "dataTestId": "",
+          "ariaLabel": ""
+        },
+        "waitAfter": ""
+      },
+      "description": "Click Sign in"
+    }
+  ],
+  "variables": {},
+  "errorHandling": {
+    "maxRetries": 3,
+    "screenshotOnError": true,
+    "fallbackSelectors": true
+  }
+}

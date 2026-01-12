@@ -1,0 +1,259 @@
+{
+  "executionId": "a6691483-9a67-41d7-8a11-af0a678d33a0",
+  "flowId": "flow_1767960267879",
+  "status": "partial",
+  "startTime": "2026-01-09T12:04:27.912Z",
+  "stepsCompleted": 2,
+  "totalSteps": 3,
+  "errors": [
+    {
+      "stepId": 2,
+      "action": "input",
+      "error": "page.waitForTimeout: waitTimeout: expected float, got string",
+      "timestamp": "2026-01-09T12:04:33.992Z"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "error_step_2",
+      "path": "C:\\Users\\joelp\\Downloads\\RPA_MCP\\mcp\\rpa-backend\\screenshots\\a6691483-9a67-41d7-8a11-af0a678d33a0_error_step_2_1767960273992.png",
+      "timestamp": "2026-01-09T12:04:34.248Z"
+    }
+  ],
+  "extractedData": {},
+  "pageTransitions": [],
+  "currentPage": {
+    "pageId": "page_f9da2d06-00ac-4d3f-b360-4810902b586d",
+    "url": "https://skilltap.skillrank.io/login/",
+    "title": "SkillTap",
+    "elements": [
+      {
+        "elementId": "elem_1",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.absolute",
+          "xpath": "//button[1]",
+          "text": ""
+        },
+        "attributes": {
+          "type": "button",
+          "class": "absolute right-3 top-1/2 transform -translate-y-1/2 \n              text-gray-400 hover:text-blue-500 focus:outline-none \n              transition-colors duration-300"
+        },
+        "position": {
+          "x": 1111,
+          "y": 643,
+          "width": 20,
+          "height": 20
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_2",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.relative",
+          "xpath": "//button[2]",
+          "text": "Sign in"
+        },
+        "attributes": {
+          "type": "submit",
+          "class": "relative whitespace-nowrap text-center overflow-hidden uppercase font-medium tracking-wider flex items-center justify-center px-6 py-3 text-sm w-full",
+          "style": "width: 100%; transition: 0.4s; opacity: 1; cursor: pointer; border-radius: 8px; background-color: rgb(37, 99, 235); box-shadow: rgba(37, 99, 235, 0.098) 0px 0px 2px 0px, rgba(37, 99, 235, 0.2) 0px 0px 4px 0px, rgba(37, 99, 235, 0.3) 0px 0px 6px 0px, rgba(37, 99, 235, 0.4) 0px 0px 8px 0px, rgba(37, 99, 235, 0.5) 0px 0px 12px 0px, rgba(37, 99, 235, 0.6) 0px 0px 18px 0px; color: rgb(255, 255, 255);"
+        },
+        "position": {
+          "x": 777,
+          "y": 742,
+          "width": 366,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Sign in",
+        "innerHTML": "<span class=\"relative z-10 flex items-center gap-2\">Sign in</span><i class=\"absolute z-0 left-0 top-1/2 w-full h-full overflow-hidden\" style=\"transform: translateY(-50%); background-color: inherit; bo"
+      },
+      {
+        "elementId": "elem_3",
+        "type": "link",
+        "tagName": "a",
+        "selectors": {
+          "css": "a.font-medium",
+          "xpath": "//a[3]",
+          "text": "create a new account"
+        },
+        "attributes": {
+          "class": "font-medium text-blue-600 hover:text-blue-500 transition duration-150",
+          "href": "/signup",
+          "data-discover": "true"
+        },
+        "position": {
+          "x": 903,
+          "y": 426,
+          "width": 134,
+          "height": 18
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "create a new account",
+        "innerHTML": "create a new account"
+      },
+      {
+        "elementId": "elem_4",
+        "type": "link",
+        "tagName": "a",
+        "selectors": {
+          "css": "a.font-medium",
+          "xpath": "//a[4]",
+          "text": "Forgot your password?"
+        },
+        "attributes": {
+          "class": "font-medium text-blue-600 hover:text-blue-500 transition duration-150",
+          "href": "/forgot-password",
+          "data-discover": "true"
+        },
+        "position": {
+          "x": 998,
+          "y": 698,
+          "width": 145,
+          "height": 18
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Forgot your password?",
+        "innerHTML": "Forgot your password?"
+      },
+      {
+        "elementId": "email",
+        "type": "email",
+        "tagName": "input",
+        "selectors": {
+          "css": "#email",
+          "xpath": "//input[@id=\"email\"]",
+          "text": ""
+        },
+        "attributes": {
+          "id": "email",
+          "name": "email",
+          "type": "email",
+          "autocomplete": "email",
+          "required": "",
+          "placeholder": "your.name@skillrank.io",
+          "class": "appearance-none block w-full px-4 py-2.5 border rounded-lg shadow-sm transition-all duration-300 \n            border-gray-300 bg-white bg-opacity-95 placeholder-gray-400 sm:text-sm",
+          "value": "joel.j@skillrank.io",
+          "style": "box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;"
+        },
+        "position": {
+          "x": 777,
+          "y": 538,
+          "width": 366,
+          "height": 42
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": ""
+      },
+      {
+        "elementId": "password",
+        "type": "text",
+        "tagName": "input",
+        "selectors": {
+          "css": "#password",
+          "xpath": "//input[@id=\"password\"]",
+          "text": ""
+        },
+        "attributes": {
+          "id": "password",
+          "name": "password",
+          "type": "text",
+          "autocomplete": "current-password",
+          "required": "",
+          "placeholder": "Enter your password",
+          "class": "appearance-none block w-full px-4 py-2.5 border rounded-lg shadow-sm transition-all duration-300 \n            border-gray-300 bg-white bg-opacity-95 placeholder-gray-400 sm:text-sm",
+          "value": "Tap@110077",
+          "style": "box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;"
+        },
+        "position": {
+          "x": 777,
+          "y": 632,
+          "width": 366,
+          "height": 42
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": ""
+      },
+      {
+        "elementId": "remember-me",
+        "type": "checkbox",
+        "tagName": "input",
+        "selectors": {
+          "css": "#remember-me",
+          "xpath": "//input[@id=\"remember-me\"]",
+          "text": ""
+        },
+        "attributes": {
+          "id": "remember-me",
+          "name": "remember-me",
+          "type": "checkbox",
+          "class": "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded",
+          "style": ""
+        },
+        "position": {
+          "x": 777,
+          "y": 700,
+          "width": 16,
+          "height": 16
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": ""
+      }
+    ],
+    "forms": [
+      {
+        "formId": "form_1",
+        "action": "https://skilltap.skillrank.io/login/",
+        "method": "get",
+        "fields": [
+          {
+            "fieldId": "email",
+            "name": "email",
+            "type": "email",
+            "required": true,
+            "placeholder": "your.name@skillrank.io"
+          },
+          {
+            "fieldId": "password",
+            "name": "password",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter your password"
+          },
+          {
+            "fieldId": "remember-me",
+            "name": "remember-me",
+            "type": "checkbox",
+            "required": false,
+            "placeholder": ""
+          }
+        ]
+      }
+    ],
+    "navigationLinks": [
+      "https://skilltap.skillrank.io/signup",
+      "https://skilltap.skillrank.io/forgot-password"
+    ],
+    "loadTime": 0,
+    "hasInfiniteScroll": false,
+    "hasLazyLoading": false
+  },
+  "endTime": "2026-01-09T12:04:38.369Z",
+  "duration": 10457
+}

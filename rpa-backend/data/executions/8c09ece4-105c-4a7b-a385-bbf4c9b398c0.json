@@ -1,0 +1,26 @@
+{
+  "executionId": "8c09ece4-105c-4a7b-a385-bbf4c9b398c0",
+  "flowId": "flow_1767866358461",
+  "status": "failed",
+  "startTime": "2026-01-08T09:59:18.513Z",
+  "stepsCompleted": 0,
+  "totalSteps": 5,
+  "errors": [
+    {
+      "stepId": 1,
+      "action": "click",
+      "error": "page.waitForTimeout: Target page, context or browser has been closed",
+      "timestamp": "2026-01-08T09:59:33.733Z"
+    },
+    {
+      "stepId": 0,
+      "action": "initialization",
+      "error": "page.screenshot: Target page, context or browser has been closed",
+      "timestamp": "2026-01-08T09:59:33.736Z"
+    }
+  ],
+  "screenshots": [],
+  "extractedData": {},
+  "endTime": "2026-01-08T09:59:33.736Z",
+  "duration": 15223
+}

@@ -1,0 +1,1179 @@
+{
+  "executionId": "cf21ee8b-5454-4c25-ae7b-e479da3763e2",
+  "flowId": "flow_1767960947920",
+  "status": "success",
+  "startTime": "2026-01-09T12:15:48.122Z",
+  "stepsCompleted": 4,
+  "totalSteps": 4,
+  "errors": [],
+  "screenshots": [],
+  "extractedData": {},
+  "currentPage": {
+    "pageId": "page_4dd4fbc8-5c5f-48e7-9103-7992da941806",
+    "url": "https://skilltap.skillrank.io/dashboard",
+    "title": "SkillTap",
+    "elements": [
+      {
+        "elementId": "elem_1",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.absolute",
+          "xpath": "//button[1]",
+          "text": ""
+        },
+        "attributes": {
+          "class": "absolute -right-3 top-6 bg-blue-500 text-white rounded-full p-1 shadow-md hover:bg-blue-600 transition-all duration-300 hover:scale-110 group"
+        },
+        "position": {
+          "x": 193,
+          "y": 24,
+          "width": 26,
+          "height": 26
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": "<div class=\"relative overflow-hidden w-[18px] h-[18px]\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-lin"
+      },
+      {
+        "elementId": "elem_2",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[2]",
+          "text": "Dashboard"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-900 font-medium\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 89,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Dashboard",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_3",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[3]",
+          "text": "Custom Notes"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 137,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Custom Notes",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_4",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[4]",
+          "text": "Analytics"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 185,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Analytics",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_5",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[5]",
+          "text": "Streak"
+        },
+        "attributes": {
+          "class": "\n                                        flex items-center text-sm w-full \n                                        justify-start px-4  \n                                        py-3 relative overflow-hidden \n                                        group\n                                        text-blue-800 hover:bg-blue-100 hover:text-blue-900\n                                        transition-all duration-300\n                                    "
+        },
+        "position": {
+          "x": 0,
+          "y": 233,
+          "width": 207,
+          "height": 44
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Streak",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_6",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[6]",
+          "text": "Reduce Animations"
+        },
+        "attributes": {
+          "class": "\n        flex items-center justify-center gap-2 px-2 py-2 w-full\n        bg-blue-50/50 text-blue-600\n        hover:bg-blue-100/50\n        rounded-md\n        transition-colors\n        relative\n        overflow-hidden\n      "
+        },
+        "position": {
+          "x": 16,
+          "y": 976,
+          "width": 175,
+          "height": 36
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Reduce Animations",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_7",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[7]",
+          "text": "Logout"
+        },
+        "attributes": {
+          "class": "\n                            flex items-center \n                            justify-center px-4 \n                            w-full py-2 \n                            text-red-600 bg-red-50/50 \n                            hover:bg-red-100 \n                            rounded-md \n                            transition-colors \n                            relative \n                            overflow-hidden \n                            group\n                            mt-2\n                        "
+        },
+        "position": {
+          "x": 16,
+          "y": 1024,
+          "width": 175,
+          "height": 40
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Logout",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_8",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[8]",
+          "text": "Day Before (07/01/26)Logged"
+        },
+        "attributes": {
+          "class": "inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500\n                        hover:shadow-md transform hover:scale-105 active:scale-95\n                        bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-300",
+          "title": "Date has existing contributions"
+        },
+        "position": {
+          "x": 713,
+          "y": 150,
+          "width": 250,
+          "height": 38
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Day Before (07/01/26)Logged",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_9",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[9]",
+          "text": "Previous Working Day (08/01/26)Logged"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500\n                        opacity-70 cursor-not-allowed\n                        existing-contribution text-indigo-700 border-indigo-300 shadow-sm",
+          "title": "Currently selected date"
+        },
+        "position": {
+          "x": 975,
+          "y": 150,
+          "width": 320,
+          "height": 38
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Previous Working Day (08/01/26)Logged",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_10",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[10]",
+          "text": "Today (09/01/26)"
+        },
+        "attributes": {
+          "class": "inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500\n                        hover:shadow-md transform hover:scale-105 active:scale-95\n                        bg-white text-blue-600 border-blue-200 hover:bg-blue-50 hover:border-blue-300",
+          "title": "Select today (09/01/26)"
+        },
+        "position": {
+          "x": 1307,
+          "y": 150,
+          "width": 156,
+          "height": 38
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Today (09/01/26)",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_11",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[11]",
+          "ariaLabel": "Previous month",
+          "text": ""
+        },
+        "attributes": {
+          "class": "inline-flex items-center p-2 pr-0 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 hover:shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500",
+          "aria-label": "Previous month",
+          "title": "Go to previous month"
+        },
+        "position": {
+          "x": 1576,
+          "y": 154,
+          "width": 26,
+          "height": 34
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide luc"
+      },
+      {
+        "elementId": "elem_12",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[12]",
+          "ariaLabel": "Next month",
+          "text": ""
+        },
+        "attributes": {
+          "class": "inline-flex items-center p-2 pl-0 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 hover:shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500",
+          "aria-label": "Next month",
+          "title": "Go to next month"
+        },
+        "position": {
+          "x": 1822,
+          "y": 154,
+          "width": 26,
+          "height": 34
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide luc"
+      },
+      {
+        "elementId": "elem_13",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[13]",
+          "text": "Work Contribution (3 projects)"
+        },
+        "attributes": {
+          "class": "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 bg-blue-600 text-white shadow-md",
+          "title": "View and manage work contributions"
+        },
+        "position": {
+          "x": 270,
+          "y": 260,
+          "width": 250,
+          "height": 36
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Work Contribution (3 projects)",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_14",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[14]",
+          "text": "Leave Application"
+        },
+        "attributes": {
+          "class": "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-green-500 text-green-600 hover:bg-green-50",
+          "title": "Apply for or manage leave requests"
+        },
+        "position": {
+          "x": 520,
+          "y": 260,
+          "width": 169,
+          "height": 36
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Leave Application",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_15",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[15]",
+          "text": "1Thu"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "Day needs to be filled"
+        },
+        "position": {
+          "x": 302,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "1Thu",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_16",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[16]",
+          "text": "2Fri"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "Day needs to be filled"
+        },
+        "position": {
+          "x": 374,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "2Fri",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_17",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[17]",
+          "text": "3Sat"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "Day needs to be filled"
+        },
+        "position": {
+          "x": 446,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "3Sat",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_18",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[18]",
+          "text": "4Sun"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "Day needs to be filled"
+        },
+        "position": {
+          "x": 519,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "4Sun",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_19",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[19]",
+          "text": "5100%1Mon"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "1 project(s): 100%\nWorkload: normal\nType: Work"
+        },
+        "position": {
+          "x": 591,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "5100%1Mon",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_20",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[20]",
+          "text": "6100%1Tue"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "1 project(s): 100%\nWorkload: normal\nType: Work"
+        },
+        "position": {
+          "x": 663,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "6100%1Tue",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_21",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[21]",
+          "text": "7100%1Wed"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "1 project(s): 100%\nWorkload: normal\nType: Work"
+        },
+        "position": {
+          "x": 735,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "7100%1Wed",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_22",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[22]",
+          "text": "8100%1Thu"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "1 project(s): 100%\nWorkload: normal\nType: Work"
+        },
+        "position": {
+          "x": 808,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "8100%1Thu",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_23",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[23]",
+          "text": "9Fri"
+        },
+        "attributes": {
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        cursor-pointer hover:opacity-90\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 880,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "9Fri",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_24",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[24]",
+          "text": "10Sat"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 952,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "10Sat",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_25",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[25]",
+          "text": "11Sun"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1024,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "11Sun",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_26",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[26]",
+          "text": "12Mon"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1097,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "12Mon",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_27",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[27]",
+          "text": "13Tue"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1169,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "13Tue",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_28",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[28]",
+          "text": "14Wed"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1241,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "14Wed",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_29",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[29]",
+          "text": "15Thu"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1313,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "15Thu",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_30",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[30]",
+          "text": "16Fri"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1386,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "16Fri",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_31",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[31]",
+          "text": "17Sat"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1458,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "17Sat",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_32",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[32]",
+          "text": "18Sun"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1530,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "18Sun",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_33",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[33]",
+          "text": "19Mon"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1602,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "19Mon",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_34",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[34]",
+          "text": "20Tue"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1675,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "20Tue",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_35",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[35]",
+          "text": "21Wed"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1747,
+          "y": 350,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "21Wed",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_36",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[36]",
+          "text": "22Thu"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 341,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "22Thu",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_37",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[37]",
+          "text": "23Fri"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 493,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "23Fri",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_38",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[38]",
+          "text": "24Sat"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 645,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "24Sat",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_39",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[39]",
+          "text": "25Sun"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 797,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "25Sun",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_40",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[40]",
+          "text": "26Mon"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 948,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "26Mon",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_41",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[41]",
+          "text": "27Tue"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1100,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "27Tue",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_42",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[42]",
+          "text": "28Wed"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1252,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "28Wed",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_43",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[43]",
+          "text": "29Thu"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1404,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "29Thu",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_44",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[44]",
+          "text": "30Fri"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1555,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "30Fri",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_45",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.\n",
+          "xpath": "//button[45]",
+          "text": "31Sat"
+        },
+        "attributes": {
+          "disabled": "",
+          "class": "\n                                        flex flex-col items-center w-16 relative group\n                                        opacity-40 cursor-not-allowed\n                                        transition-all duration-200\n                                    ",
+          "title": "No contributions"
+        },
+        "position": {
+          "x": 1707,
+          "y": 478,
+          "width": 64,
+          "height": 128
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "31Sat",
+        "innerHTML": "<div class=\"\n                                            relative text-xs mb-2 font-medium rounded-full w-8 h-8 \n                                            flex items-center justify-center\n          "
+      },
+      {
+        "elementId": "elem_46",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[46]",
+          "text": "Edit"
+        },
+        "attributes": {
+          "class": "inline-flex items-center justify-center px-4 py-2 transition-all duration-300 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95 border border-blue-300 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 bg-white hover:border-blue-400 p-1.5 rounded-md "
+        },
+        "position": {
+          "x": 1644,
+          "y": 679,
+          "width": 82,
+          "height": 38
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Edit",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      },
+      {
+        "elementId": "elem_47",
+        "type": "button",
+        "tagName": "button",
+        "selectors": {
+          "css": "button.inline-flex",
+          "xpath": "//button[47]",
+          "text": "Delete"
+        },
+        "attributes": {
+          "class": "inline-flex items-center justify-center px-4 py-2 transition-all duration-300 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95 bg-red-600 hover:bg-red-700 text-white focus:ring-red-500 shadow-sm hover:shadow-md p-1.5 rounded-md "
+        },
+        "position": {
+          "x": 1734,
+          "y": 679,
+          "width": 97,
+          "height": 38
+        },
+        "visible": true,
+        "interactable": true,
+        "textContent": "Delete",
+        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucid"
+      }
+    ],
+    "forms": [],
+    "navigationLinks": [],
+    "loadTime": 0,
+    "hasInfiniteScroll": false,
+    "hasLazyLoading": false
+  },
+  "pageTransitions": [
+    {
+      "stepId": 3,
+      "fromUrl": "https://skilltap.skillrank.io/login/",
+      "toUrl": "https://skilltap.skillrank.io/dashboard",
+      "timestamp": "2026-01-09T12:15:58.118Z"
+    }
+  ],
+  "endTime": "2026-01-09T12:16:04.448Z",
+  "duration": 16326
+}
