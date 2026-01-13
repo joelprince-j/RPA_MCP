@@ -1,18 +1,19 @@
 {
-  "flowId": "flow_1767953181866",
-  "name": "Untitled Flow",
-  "description": "",
+  "flowId": "flow_1768234977964",
+  "name": "Recorded Flow",
+  "description": "Auto-recorded flow from https://skilltap.skillrank.io/login/",
   "startUrl": "https://skilltap.skillrank.io/login/",
   "steps": [
     {
       "stepId": 1,
       "action": "input",
+      "description": "Click email",
       "params": {
         "timeout": 30000,
         "elementId": "email",
         "selectors": {
           "css": "#email",
-          "xpath": "//input[@id=\"email\"]",
+          "xpath": "//*[@id=\"email\"]",
           "text": "",
           "dataTestId": "",
           "ariaLabel": ""
@@ -20,45 +21,52 @@
         "waitAfter": "",
         "value": "joel.j@skillrank.io",
         "clearFirst": true
-      },
-      "description": "Click email"
+      }
     },
     {
       "stepId": 2,
       "action": "input",
+      "description": "Click password",
       "params": {
         "timeout": 30000,
         "elementId": "password",
         "selectors": {
           "css": "#password",
-          "xpath": "//input[@id=\"password\"]",
+          "xpath": "//*[@id=\"password\"]",
           "text": "",
           "dataTestId": "",
           "ariaLabel": ""
         },
-        "waitAfter": "",
+        "waitAfter": "100",
         "value": "Tap@110077",
-        "clearFirst": true,
-        "filePath": ""
-      },
-      "description": "Click password"
+        "clearFirst": true
+      }
     },
     {
       "stepId": 3,
       "action": "click",
+      "description": "Click Sign in",
       "params": {
         "timeout": 30000,
-        "elementId": "elem_2",
+        "elementId": "button_relative",
         "selectors": {
           "css": "button.relative",
-          "xpath": "//button[2]",
-          "text": "Sign in",
+          "xpath": "//button.relative",
+          "text": "",
           "dataTestId": "",
           "ariaLabel": ""
         },
-        "waitAfter": ""
-      },
-      "description": "Click Sign in"
+        "waitAfter": "100"
+      }
+    },
+    {
+      "stepId": 4,
+      "action": "navigate",
+      "description": "Navigate to https://skilltap.skillrank.io/dashboard",
+      "params": {
+        "timeout": 30000,
+        "url": "https://skilltap.skillrank.io/dashboard"
+      }
     }
   ],
   "variables": {},

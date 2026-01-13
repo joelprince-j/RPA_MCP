@@ -89,4 +89,38 @@ export const executionApi = {
   },
 };
 
+export const recorderApi = {
+  // Start recording session
+  startRecording: async (url: string): Promise<{ sessionId: string; success: boolean; message: string }> => {
+    const response = await api.post('/recorder/start', { url });
+    return response.data;
+  },
+
+  // Get recording status
+  getRecordingStatus: async (sessionId: string): Promise<{
+    sessionId: string;
+    actionsCount: number;
+    currentUrl: string;
+  }> => {
+    const response = await api.get(`/recorder/status/${sessionId}`);
+    return response.data;
+  },
+
+  // Stop recording and get flow
+  stopRecording: async (sessionId: string): Promise<{
+    success: boolean;
+    flow: any;
+    message: string;
+  }> => {
+    const response = await api.post('/recorder/stop', { sessionId });
+    return response.data;
+  },
+
+  // Cancel recording
+  cancelRecording: async (sessionId: string): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post('/recorder/cancel', { sessionId });
+    return response.data;
+  },
+};
+
 export default api;
