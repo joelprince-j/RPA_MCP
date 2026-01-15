@@ -10,23 +10,23 @@ interface InputConfigProps {
 
 export const InputConfig: React.FC<InputConfigProps> = ({ register, watch }) => {
   return (
-    <div className="space-y-4 border-t pt-4">
-      <h4 className="font-semibold text-sm text-gray-700">Input Settings</h4>
+    <div className="space-y-4 border-t border-gray-800/50 pt-4">
+      <h4 className="font-semibold text-sm text-gray-300">Input Settings</h4>
 
       <div>
-        <label className="form-label">Element ID</label>
+        <label className="block mb-1 text-xs font-medium text-gray-400">Element ID</label>
         <input
           {...register('params.elementId')}
-          className="form-input"
+          className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
           placeholder="e.g., username-field"
         />
       </div>
 
       <div>
-        <label className="form-label">Value to Input *</label>
+        <label className="block mb-1 text-xs font-medium text-gray-400">Value to Input *</label>
         <input
           {...register('params.value')}
-          className="form-input"
+          className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
           placeholder="Enter the text to input"
           required
         />
@@ -39,41 +39,41 @@ export const InputConfig: React.FC<InputConfigProps> = ({ register, watch }) => 
         <input
           type="checkbox"
           {...register('params.clearFirst')}
-          className="rounded"
+          className="rounded border-gray-700 bg-gray-800/50 text-blue-600 focus:ring-blue-500"
           id="clearFirst"
           defaultChecked
         />
-        <label htmlFor="clearFirst" className="text-sm text-gray-700">
+        <label htmlFor="clearFirst" className="text-sm text-gray-300">
           Clear field before typing
         </label>
       </div>
 
-      <div className="bg-gray-50 p-3 rounded-lg space-y-3">
-        <h5 className="text-xs font-semibold text-gray-600 uppercase">Selectors</h5>
+      <div className="bg-gray-800/30 p-3 rounded-lg space-y-3 border border-gray-700/30">
+        <h5 className="text-xs font-semibold text-gray-400 uppercase">Selectors</h5>
 
         <div>
-          <label className="form-label">CSS Selector</label>
+          <label className="block mb-1 text-xs font-medium text-gray-400">CSS Selector</label>
           <input
             {...register('params.selectors.css')}
-            className="form-input"
+            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
             placeholder="#username"
           />
         </div>
 
         <div>
-          <label className="form-label">Data Test ID</label>
+          <label className="block mb-1 text-xs font-medium text-gray-400">Data Test ID</label>
           <input
             {...register('params.selectors.dataTestId')}
-            className="form-input"
+            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
             placeholder="username-input"
           />
         </div>
 
         <div>
-          <label className="form-label">Name Attribute</label>
+          <label className="block mb-1 text-xs font-medium text-gray-400">Name Attribute</label>
           <input
             {...register('params.selectors.text')}
-            className="form-input"
+            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
             placeholder="username"
           />
         </div>

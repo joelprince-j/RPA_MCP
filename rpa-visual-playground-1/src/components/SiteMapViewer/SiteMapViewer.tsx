@@ -64,65 +64,13 @@ export const SiteMapViewer: React.FC = () => {
     return (
       <div className="h-full flex flex-col bg-white">
         <div className="flex-1 flex items-center justify-center p-8">
-          <div className="text-center max-w-md w-full">
-            <div className="text-blue-400 mb-6">
-              <Globe size={80} className="mx-auto" strokeWidth={1.5} />
+          <div className="text-center">
+            <div className="text-gray-300 mb-4">
+              <Globe size={48} className="mx-auto" strokeWidth={1.5} />
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-3">
-              Map a Website
-            </h3>
-            <p className="text-gray-600 mb-6 text-sm">
-              Enter a URL to crawl the website and extract all interactive elements using Playwright
+            <p className="text-sm text-gray-500">
+              No site map loaded
             </p>
-            
-            {/* URL INPUT */}
-            <div className="mb-6">
-              <label className="block text-left text-sm font-medium text-gray-700 mb-2">
-                Website URL
-              </label>
-              <input
-                type="url"
-                value={customUrl}
-                onChange={(e) => setCustomUrl(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                placeholder="https://example.com"
-                disabled={loadingSiteMap}
-              />
-              <p className="text-xs text-gray-500 mt-2 text-left">
-                Try: example.com, httpbin.org/forms/post, or your own site
-              </p>
-            </div>
-            
-            {/* LOAD BUTTON */}
-            <button
-              onClick={handleLoadSiteMap}
-              disabled={loadingSiteMap || !customUrl}
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center justify-center gap-2"
-            >
-              {loadingSiteMap ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  <span>Mapping Website...</span>
-                </>
-              ) : (
-                <>
-                  <Globe size={20} />
-                  <span>Map Website</span>
-                </>
-              )}
-            </button>
-            
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-xs text-blue-800 font-medium mb-2">
-                ⚡ What happens when you map:
-              </p>
-              <ul className="text-xs text-blue-700 text-left space-y-1">
-                <li>• Playwright crawls the website</li>
-                <li>• Extracts all buttons, inputs, links</li>
-                <li>• Generates CSS selectors & XPath</li>
-                <li>• Takes 10-30 seconds depending on site size</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

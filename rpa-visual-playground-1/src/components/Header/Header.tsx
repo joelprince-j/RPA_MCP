@@ -249,31 +249,31 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
   };
 
   return (
-    <header className="text-white bg-gray-900 shadow-lg">
-      <div className="flex items-center justify-between p-4">
+    <header className="text-white bg-[#1a1d29] border-b border-gray-800 shadow-sm">
+      <div className="flex items-center justify-between px-6 py-3">
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-blue-400">RPA Flow Builder</h1>
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <span className="px-2 py-1 bg-gray-800 rounded">
-              {steps.length} steps
+          <h1 className="text-xl font-semibold text-white">RPA Flow Builder</h1>
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="px-2.5 py-1 bg-gray-800/50 rounded-md border border-gray-700/50">
+              {steps.length} {steps.length === 1 ? 'step' : 'steps'}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setPreviewOpen(!isPreviewOpen)}
-            className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm transition-colors bg-gray-800/50 rounded-md hover:bg-gray-700/50 border border-gray-700/50"
           >
-            {isPreviewOpen ? <EyeOff size={16} /> : <Eye size={16} />}
-            <span className="hidden sm:inline">Preview</span>
+            {isPreviewOpen ? <EyeOff size={14} /> : <Eye size={14} />}
+            <span className="hidden sm:inline text-xs">Preview</span>
           </button>
           <button
             onClick={() => setJsonEditorOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 transition-colors bg-purple-600 rounded hover:bg-purple-700"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm transition-colors bg-purple-600/80 rounded-md hover:bg-purple-600 border border-purple-500/30"
             title="Open JSON Editor"
           >
-            <FileJson size={16} />
-            <span className="hidden sm:inline">JSON</span>
+            <FileJson size={14} />
+            <span className="hidden sm:inline text-xs">JSON</span>
           </button>
           {/* <label className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded cursor-pointer hover:bg-gray-600">
             <Upload size={16} />
@@ -304,39 +304,18 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
           </div>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm transition-colors bg-gray-800/50 rounded-md hover:bg-gray-700/50 border border-gray-700/50"
           >
-            <Settings size={16} />
-          </button>
-          <button
-            onClick={handleExtractCurrentPage}
-            disabled={isExtractingPage || isExecuting || steps.length === 0}
-            className="flex items-center gap-2 px-3 py-2 transition-all bg-green-600 rounded shadow-lg hover:bg-green-700 disabled:opacity-50"
-            title="Execute flow and extract elements from current page"
-          >
-            <RefreshCw size={16} className={isExtractingPage ? 'animate-spin' : ''} />
-            <span className="font-medium hidden sm:inline">
-              {isExtractingPage ? 'Extracting...' : 'Extract Page'}
-            </span>
-          </button>
-          <button
-            onClick={handleExecute}
-            disabled={isExecuting || isExtractingPage || steps.length === 0}
-            className="flex items-center gap-2 px-4 py-2 transition-all bg-blue-600 rounded shadow-lg hover:bg-blue-700 disabled:opacity-50"
-          >
-            <Play size={16} />
-            <span className="font-medium">
-              {isExecuting ? 'Running...' : 'Execute'}
-            </span>
+            <Settings size={14} />
           </button>
         </div>
       </div>
       {showSettings && (
-        <div className="p-4 bg-gray-800 border-t border-gray-700">
-          <h3 className="mb-2 text-sm font-semibold">Flow Settings</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="px-6 py-4 bg-gray-800/30 border-t border-gray-800">
+          <h3 className="mb-3 text-xs font-semibold text-gray-300 uppercase tracking-wide">Flow Settings</h3>
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block mb-1 text-gray-400">Flow Name</label>
+              <label className="block mb-1.5 text-xs text-gray-400">Flow Name</label>
               <input
                 type="text"
                 value={flow?.name || ''}
@@ -344,12 +323,12 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
                   const currentFlow = exportFlow()
                   setFlow({ ...currentFlow, name: e.target.value })
                 }}
-                className="w-full px-3 py-1 text-white bg-gray-700 border border-gray-600 rounded"
+                className="w-full px-3 py-1.5 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="Enter flow name"
               />
             </div>
             <div>
-              <label className="block mb-1 text-gray-400">Start URL</label>
+              <label className="block mb-1.5 text-xs text-gray-400">Start URL</label>
               <input
                 type="url"
                 value={flow?.startUrl || ''}
@@ -357,7 +336,7 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
                   const currentFlow = exportFlow()
                   setFlow({ ...currentFlow, startUrl: e.target.value })
                 }}
-                className="w-full px-3 py-1 text-white bg-gray-700 border border-gray-600 rounded"
+                className="w-full px-3 py-1.5 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="https://example.com"
               />
             </div>
