@@ -259,20 +259,83 @@ export const FlowBuilder: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo, canUndo, canRedo]);
 
+  // Helper function to check if two nodes overlap
+  const checkNodeCollision = (pos1: { x: number; y: number }, pos2: { x: number; y: number }, nodeWidth = 300, nodeHeight = 120): boolean => {
+    const padding = 40; // Minimum spacing between nodes (increased from 20 to 40)
+    return (
+      pos1.x < pos2.x + nodeWidth + padding &&
+      pos1.x + nodeWidth + padding > pos2.x &&
+      pos1.y < pos2.y + nodeHeight + padding &&
+      pos1.y + nodeHeight + padding > pos2.y
+    );
+  };
+
+  // Helper function to find a non-colliding position
+  const findNonCollidingPosition = (
+    desiredPos: { x: number; y: number },
+    existingNodes: Node[],
+    nodeWidth = 300,
+    nodeHeight = 120
+  ): { x: number; y: number } => {
+    let position = { ...desiredPos };
+    let attempts = 0;
+    const maxAttempts = 50;
+    const stepSize = 50;
+
+    while (attempts < maxAttempts) {
+      const hasCollision = existingNodes.some((node) => {
+        if (!node.position) return false;
+        return checkNodeCollision(position, node.position, nodeWidth, nodeHeight);
+      });
+
+      if (!hasCollision) {
+        return position;
+      }
+
+      // Try different positions in a spiral pattern
+      const angle = (attempts * 0.5) % (Math.PI * 2);
+      const radius = Math.floor(attempts / 8) * stepSize;
+      position = {
+        x: desiredPos.x + Math.cos(angle) * radius,
+        y: desiredPos.y + Math.sin(angle) * radius,
+      };
+
+      attempts++;
+    }
+
+    // Fallback: place it far to the right
+    return {
+      x: Math.max(...existingNodes.map(n => n.position?.x || 0)) + nodeWidth + 50,
+      y: desiredPos.y,
+    };
+  };
+
   // Update nodes when steps change, but preserve positions
   useEffect(() => {
-    const newNodes: Node[] = steps.map((step, index) => {
+    const newNodes: Node[] = [];
+    const nodeWidth = 300;
+    const nodeHeight = 120;
+
+    steps.forEach((step, index) => {
       const nodeId = `step-${step.stepId}`;
-      // Use stored position if available, otherwise calculate default
-      const position = nodePositionsRef.current[nodeId] || { 
+      // Use stored position if available, otherwise calculate default with more spacing
+      const desiredPosition = nodePositionsRef.current[nodeId] || { 
         x: 250, 
-        y: index * 150 + 50 
+        y: index * 200 + 50  // Increased spacing from 180 to 200
       };
       
-      return {
+      // Check for collisions with already placed nodes
+      const finalPosition = findNonCollidingPosition(desiredPosition, newNodes, nodeWidth, nodeHeight);
+      
+      // Update stored position if it was adjusted
+      if (finalPosition.x !== desiredPosition.x || finalPosition.y !== desiredPosition.y) {
+        nodePositionsRef.current[nodeId] = finalPosition;
+      }
+      
+      newNodes.push({
         id: nodeId,
         type: 'step',
-        position,
+        position: finalPosition,
         data: { 
           step,
           isSwapMode: swapModeStepId === step.stepId,
@@ -280,7 +343,7 @@ export const FlowBuilder: React.FC = () => {
         selected: selectedStepId === step.stepId,
         draggable: true,
         className: swapModeStepId === step.stepId ? 'swap-mode-node' : '',
-      };
+      });
     });
 
     const newEdges: Edge[] = steps.slice(0, -1).map((step, index) => ({
@@ -288,7 +351,12 @@ export const FlowBuilder: React.FC = () => {
       source: `step-${step.stepId}`,
       target: `step-${steps[index + 1].stepId}`,
       animated: true,
+      type: 'smoothstep',
       style: { stroke: '#3b82f6', strokeWidth: 2 },
+      markerEnd: {
+        type: 'arrowclosed',
+        color: '#3b82f6',
+      },
     }));
 
     setNodes(newNodes);
@@ -373,10 +441,10 @@ export const FlowBuilder: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
+    <div className="flex flex-col h-full bg-[#1a1d29]">
       {/* Toolbar */}
-      <div className="flex items-center justify-between p-3 bg-white border-b shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-700">Flow Canvas</h2>
+      <div className="flex items-center justify-between px-4 py-2.5 bg-[#1a1d29] border-b border-gray-800/50">
+        <h2 className="text-sm font-medium text-gray-300">Flow Canvas</h2>
         
         <div className="flex gap-2">
           <button
@@ -402,21 +470,20 @@ export const FlowBuilder: React.FC = () => {
       {/* React Flow Canvas */}
       <div className="flex-1">
         {steps.length === 0 ? (
-          <div className="flex items-center justify-center h-full bg-gradient-to-br from-gray-50 to-gray-100">
+          <div className="flex items-center justify-center h-full bg-[#1a1d29]">
             <div className="p-8 text-center">
-              <div className="mb-4 text-gray-300">
+              <div className="mb-4 text-gray-600">
                 <Plus size={64} className="mx-auto" strokeWidth={1.5} />
               </div>
-              <h3 className="mb-2 text-2xl font-bold text-gray-700">
+              <h3 className="mb-2 text-xl font-semibold text-gray-300">
                 No Steps Yet
               </h3>
-              <p className="max-w-md mb-6 text-gray-500">
-                Click "Add Step" to start building your automation flow. 
-                You can also drag and drop elements from the site map.
+              <p className="max-w-md mb-6 text-sm text-gray-500">
+                Click "Add Step" to start building your automation flow
               </p>
               <button
                 onClick={handleAddStep}
-                className="px-6 py-3 text-white transition-all rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                className="px-6 py-2.5 text-sm text-white transition-all rounded-md shadow-lg bg-blue-600 hover:bg-blue-700"
               >
                 Add First Step
               </button>
@@ -443,22 +510,28 @@ export const FlowBuilder: React.FC = () => {
             maxZoom={2}
             defaultEdgeOptions={{
               animated: true,
+              type: 'smoothstep',
+              style: { stroke: '#3b82f6', strokeWidth: 2 },
+              markerEnd: {
+                type: 'arrowclosed',
+                color: '#3b82f6',
+              },
             }}
+            connectionLineType="smoothstep"
           >
             <Controls />
             <MiniMap
               nodeColor={(node) => {
                 if (node.selected) return '#3b82f6';
-                return '#9ca3af';
+                return '#4b5563';
               }}
-              maskColor="rgba(0, 0, 0, 0.05)"
-              className="bg-white border border-gray-200 rounded-lg shadow-sm"
+              maskColor="rgba(0, 0, 0, 0.4)"
             />
             <Background 
               variant={BackgroundVariant.Dots} 
               gap={20} 
               size={1}
-              color="#e5e7eb"
+              color="#374151"
             />
           </ReactFlow>
         )}

@@ -34,11 +34,9 @@
 
 // export default App
 
-import { useState } from 'react';
 import Header from './components/Header/Header';
 import { FlowBuilder } from './components/FlowBuilder/FlowBuilder';
 import { StepConfigPanel } from './components/StepConfigPanel/StepConfigPanel';
-import { SiteMapViewer } from './components/SiteMapViewer/SiteMapViewer';
 import { FlowPreview } from './components/FlowPreview/FlowPreview';
 import { PageTransitionModal } from './components/PageTransitionModal/PageTransitionModal';
 import { JsonEditor } from './components/JsonEditor/JsonEditor';
@@ -48,59 +46,32 @@ import { useFlowStore } from './store/flowStore';
 import type { Flow } from './types/flow.types';
 
 function App() {
-  const { isSiteMapOpen, setSiteMapOpen, importFlow } = useFlowStore();
-  
-  // Persist mode selection in localStorage
-  const [appMode, setAppMode] = useState<'landing' | 'playground' | 'codegen'>(() => {
-    const saved = localStorage.getItem('rpa-app-mode');
-    return (saved as 'landing' | 'playground' | 'codegen') || 'landing';
-  });
+  const { isSiteMapOpen, setSiteMapOpen } = useFlowStore();
 
-  const handleModeSelect = (mode: 'playground' | 'codegen') => {
-    setAppMode(mode);
-    localStorage.setItem('rpa-app-mode', mode);
-  };
-
-  const handleFlowGenerated = (flow: Flow) => {
-    importFlow(flow);
-    setAppMode('playground');
-  };
-
-  const handleBackToLanding = () => {
-    setAppMode('landing');
-    localStorage.setItem('rpa-app-mode', 'landing');
-  };
-
-  // Show landing page
-  if (appMode === 'landing') {
-    return <LandingPage onSelectMode={handleModeSelect} />;
-  }
-
-  // Show codegen mode
-  if (appMode === 'codegen') {
-    return <CodegenMode onFlowGenerated={handleFlowGenerated} onBack={handleBackToLanding} />;
-  }
-
-  // Show playground mode (existing app)
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Header onBackToHome={handleBackToLanding} />
+      <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar - Site Map */}
-        {isSiteMapOpen && (
-          <div className="flex-shrink-0 bg-white border-r w-80">
-            <SiteMapViewer />
+        {/* Main Content - Flow Builder (Full Width) */}
+        <div className="flex flex-col flex-1 overflow-hidden relative">
+          <FlowBuilder />
+        </div>
+
+        {/* Right Sidebar - Step Config (Collapsible) */}
+        {isConfigPanelOpen && (
+          <div className="flex-shrink-0 bg-[#1a1d29] border-l border-gray-800/50 w-96 shadow-xl">
+            <StepConfigPanel />
           </div>
         )}
 
-        {/* Toggle Site Map Button */}
-        {!isSiteMapOpen && (
+        {/* Toggle Config Panel Button */}
+        {!isConfigPanelOpen && (
           <button
-            onClick={() => setSiteMapOpen(true)}
-            className="absolute left-0 z-10 p-2 transform -translate-y-1/2 bg-white border border-l-0 rounded-r-lg shadow-lg top-1/2 hover:bg-gray-50"
-            aria-label="Show Site Map"
-            title="Show Site Map"
+            onClick={() => setIsConfigPanelOpen(true)}
+            className="absolute right-0 z-10 p-2 transform -translate-y-1/2 bg-white border border-r-0 rounded-l-lg shadow-lg top-1/2 hover:bg-gray-50 transition-all"
+            aria-label="Show Configuration Panel"
+            title="Show Configuration Panel"
           >
             <svg
               className="w-5 h-5 text-gray-600"
@@ -113,22 +84,12 @@ function App() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M9 5l7 7-7 7"
+                d="M15 19l-7-7 7-7"
               />
             </svg>
-            <span className="sr-only">Show Site Map</span>
+            <span className="sr-only">Show Configuration Panel</span>
           </button>
         )}
-
-        {/* Main Content - Flow Builder */}
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <FlowBuilder />
-        </div>
-
-        {/* Right Sidebar - Step Config */}
-        <div className="flex-shrink-0 bg-white border-l w-96">
-          <StepConfigPanel />
-        </div>
       </div>
 
       {/* Flow Preview Overlay */}
