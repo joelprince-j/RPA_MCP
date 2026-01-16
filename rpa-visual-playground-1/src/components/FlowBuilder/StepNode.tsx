@@ -224,8 +224,10 @@ const ACTION_COLORS = {
 
 export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
   const { step, isSwapMode } = data;
-  const Icon = ACTION_ICONS[step.action];
-  const colors = ACTION_COLORS[step.action];
+  // Support both action (legacy) and actionType (new format)
+  const action = step.actionType || step.action || 'click';
+  const Icon = ACTION_ICONS[action as keyof typeof ACTION_ICONS] || ACTION_ICONS.click;
+  const colors = ACTION_COLORS[action as keyof typeof ACTION_COLORS] || ACTION_COLORS.click;
 
   return (
     <div
@@ -252,7 +254,7 @@ export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
               Step {step.stepId}
             </div>
             <div className="text-xs font-bold text-white capitalize">
-              {step.action}
+              {action}
             </div>
           </div>
         </div>
@@ -307,7 +309,8 @@ export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
 };
 
 function getDefaultDescription(step: FlowStep): string {
-  switch (step.action) {
+  const action = step.actionType || step.action || 'click';
+  switch (action) {
     case 'navigate':
       return `Navigate to ${step.params.url || 'URL'}`;
     case 'click':

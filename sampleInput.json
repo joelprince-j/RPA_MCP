@@ -1,0 +1,241 @@
+{
+  "flowId": "amazon-product-scraper-001",
+  "name": "Amazon Product Price Tracker",
+  "description": "Scrapes product information including prices, ratings, and availability from Amazon search results",
+  "startUrl": "https://www.amazon.com/s?k=laptop",
+  "auth": {
+    "enabled": true,
+    "url": "https://www.amazon.com/ap/signin",
+    "steps": [
+      {
+        "stepId": 1,
+        "actionType": "navigate",
+        "params": {
+          "timeout": 5000,
+          "url": "https://www.amazon.com/ap/signin"
+        },
+        "description": "Navigate to Amazon login page"
+      },
+      {
+        "stepId": 2,
+        "actionType": "type",
+        "params": {
+          "timeout": 3000,
+          "elementId": "email-input",
+          "selectors": {
+            "css": "#ap_email",
+            "xpath": "//input[@id='ap_email']",
+            "text": ""
+          },
+          "value": "user@example.com"
+        },
+        "description": "Enter email address"
+      },
+      {
+        "stepId": 3,
+        "actionType": "click",
+        "params": {
+          "timeout": 2000,
+          "elementId": "continue-button",
+          "selectors": {
+            "css": "#continue",
+            "xpath": "//input[@id='continue']",
+            "text": ""
+          }
+        },
+        "description": "Click continue button"
+      },
+      {
+        "stepId": 4,
+        "actionType": "wait",
+        "params": {
+          "timeout": 2000
+        },
+        "description": "Wait for password field to appear"
+      },
+      {
+        "stepId": 5,
+        "actionType": "type",
+        "params": {
+          "timeout": 3000,
+          "elementId": "password-input",
+          "selectors": {
+            "css": "#ap_password",
+            "xpath": "//input[@id='ap_password']",
+            "text": ""
+          },
+          "value": "${AMAZON_PASSWORD}"
+        },
+        "description": "Enter password"
+      },
+      {
+        "stepId": 6,
+        "actionType": "submit",
+        "params": {
+          "timeout": 5000,
+          "elementId": "signin-button",
+          "selectors": {
+            "css": "#signInSubmit",
+            "xpath": "//input[@id='signInSubmit']",
+            "text": ""
+          }
+        },
+        "description": "Submit login form"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "stepId": 1,
+      "actionType": "navigate",
+      "params": {
+        "timeout": 10000,
+        "url": "https://www.amazon.com/s?k=laptop"
+      },
+      "description": "Navigate to laptop search results"
+    },
+    {
+      "stepId": 2,
+      "actionType": "wait",
+      "params": {
+        "timeout": 3000,
+        "selectors": {
+          "css": "[data-component-type='s-search-result']",
+          "xpath": "//div[@data-component-type='s-search-result']",
+          "text": ""
+        }
+      },
+      "description": "Wait for search results to load"
+    },
+    {
+      "stepId": 3,
+      "actionType": "scroll",
+      "params": {
+        "timeout": 2000,
+        "value": "bottom"
+      },
+      "description": "Scroll to bottom to load all products"
+    },
+    {
+      "stepId": 4,
+      "actionType": "extract",
+      "params": {
+        "timeout": 5000,
+        "selectors": {
+          "css": "[data-component-type='s-search-result']",
+          "xpath": "//div[@data-component-type='s-search-result']",
+          "text": ""
+        }
+      },
+      "description": "Extract product information from search results"
+    },
+    {
+      "stepId": 5,
+      "actionType": "screenshot",
+      "params": {
+        "timeout": 2000,
+        "value": "full-page"
+      },
+      "description": "Capture screenshot of search results"
+    },
+    {
+      "stepId": 6,
+      "actionType": "click",
+      "params": {
+        "timeout": 3000,
+        "elementId": "next-page",
+        "selectors": {
+          "css": ".s-pagination-next",
+          "xpath": "//a[contains(@class, 's-pagination-next')]",
+          "text": "Next"
+        }
+      },
+      "description": "Navigate to next page of results"
+    },
+    {
+      "stepId": 7,
+      "actionType": "wait",
+      "params": {
+        "timeout": 3000,
+        "selectors": {
+          "css": "[data-component-type='s-search-result']",
+          "xpath": "//div[@data-component-type='s-search-result']",
+          "text": ""
+        }
+      },
+      "description": "Wait for next page results to load"
+    },
+    {
+      "stepId": 8,
+      "actionType": "extract",
+      "params": {
+        "timeout": 5000,
+        "selectors": {
+          "css": "[data-component-type='s-search-result']",
+          "xpath": "//div[@data-component-type='s-search-result']",
+          "text": ""
+        }
+      },
+      "description": "Extract products from page 2"
+    }
+  ],
+  "return": {
+    "format": "json",
+    "fields": [
+      "pageTitle",
+      "products",
+      "totalResults",
+      "currentPage",
+      "scrapeTimestamp",
+      "productCount"
+    ],
+    "outputs": [
+      {
+        "type": "s3",
+        "enabled": true,
+        "bucket": "amazon-product-data",
+        "region": "us-east-1",
+        "credentials": {
+          "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+          "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}"
+        },
+        "path": "crawled-data/amazon-laptops/${date}/${timestamp}-products.json",
+        "format": "json",
+        "acl": "private"
+      },
+      {
+        "type": "s3",
+        "enabled": true,
+        "bucket": "amazon-product-data",
+        "region": "us-east-1",
+        "credentials": {
+          "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+          "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}"
+        },
+        "path": "crawled-data/amazon-laptops/screenshots/${date}/${timestamp}-screenshot.png",
+        "format": "json",
+        "acl": "private"
+      },
+      {
+        "type": "s3",
+        "enabled": false,
+        "bucket": "amazon-product-backups",
+        "region": "eu-west-1",
+        "credentials": {
+          "accessKeyId": "${AWS_BACKUP_ACCESS_KEY}",
+          "secretAccessKey": "${AWS_BACKUP_SECRET_KEY}"
+        },
+        "path": "backups/${flowId}/${year}/${month}/${day}/products-${timestamp}.json",
+        "format": "json",
+        "acl": "private"
+      }
+    ]
+  },
+  "errorHandling": {
+    "retryOnFailure": true,
+    "maxRetries": 3,
+    "retryDelay": 5000,
+    "captureScreenshotOnError": true,
+    "continueOnError": false
+  }
+}

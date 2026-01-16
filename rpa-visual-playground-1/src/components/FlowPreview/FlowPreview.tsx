@@ -1,6 +1,6 @@
-import React from 'react';
-import { useFlowStore } from '../../store/flowStore';
-import { X, Download, Code } from 'lucide-react';
+import React from "react";
+import { useFlowStore } from "../../store/flowStore";
+import { X, Download, Code } from "lucide-react";
 
 export const FlowPreview: React.FC = () => {
   const { isPreviewOpen, setPreviewOpen, exportFlow } = useFlowStore();
@@ -11,7 +11,7 @@ export const FlowPreview: React.FC = () => {
 
   const handleCopyJSON = () => {
     navigator.clipboard.writeText(JSON.stringify(flow, null, 2));
-    alert('Flow JSON copied to clipboard!');
+    alert("Flow JSON copied to clipboard!");
   };
 
   return (
@@ -25,6 +25,7 @@ export const FlowPreview: React.FC = () => {
         <button
           onClick={() => setPreviewOpen(false)}
           className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+          title="Close Preview"
         >
           <X size={18} className="text-gray-600" />
         </button>
@@ -35,15 +36,29 @@ export const FlowPreview: React.FC = () => {
         <div className="space-y-2 text-sm">
           <div>
             <span className="font-semibold text-gray-700">Name:</span>
-            <span className="ml-2 text-gray-600">{flow.name || 'Untitled'}</span>
+            <span className="ml-2 text-gray-600">
+              {flow.name || "Untitled"}
+            </span>
           </div>
           <div>
-            <span className="font-semibold text-gray-700">Steps:</span>
-            <span className="ml-2 text-gray-600">{flow.steps.length}</span>
+            <span className="font-semibold text-gray-700">Actions:</span>
+            <span className="ml-2 text-gray-600">
+              {(flow.actions || flow.steps || []).length}
+            </span>
           </div>
+          {flow.auth?.enabled && (
+            <div>
+              <span className="font-semibold text-gray-700">Auth Steps:</span>
+              <span className="ml-2 text-gray-600">
+                {flow.auth.steps?.length || 0}
+              </span>
+            </div>
+          )}
           <div>
             <span className="font-semibold text-gray-700">Start URL:</span>
-            <div className="text-gray-600 truncate">{flow.startUrl || 'Not set'}</div>
+            <div className="text-gray-600 truncate">
+              {flow.startUrl || "Not set"}
+            </div>
           </div>
         </div>
       </div>

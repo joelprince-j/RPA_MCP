@@ -10,9 +10,29 @@ const __dirname = path.dirname(__filename);
 
 export interface FlowStep {
   stepId: number;
-  action: string;
+  action?: string; // Legacy format
+  actionType?: string; // New format
   params: any;
   description?: string;
+}
+
+export interface AuthStep {
+  stepId: number;
+  actionType: string;
+  params: any;
+  description?: string;
+}
+
+export interface Auth {
+  enabled: boolean;
+  url?: string;
+  steps: AuthStep[];
+}
+
+export interface Return {
+  format?: 'json' | 'csv' | 'xml';
+  fields?: string[];
+  outputs?: any[];
 }
 
 export interface Flow {
@@ -20,9 +40,14 @@ export interface Flow {
   name: string;
   description: string;
   startUrl: string;
-  steps: FlowStep[];
-  variables?: Record<string, string>;
+  // New format
+  auth?: Auth;
+  actions?: FlowStep[];
+  return?: Return;
   errorHandling?: any;
+  // Legacy format (for backward compatibility)
+  steps?: FlowStep[];
+  variables?: Record<string, string>;
 }
 
 export interface ExecutionReport {
@@ -81,13 +106,18 @@ export class FlowExecutionService {
 
     console.log(`Starting execution: ${executionId} for flow: ${flow.name}`);
 
+    // Get steps from new format (actions) or legacy format (steps)
+    const mainSteps = flow.actions || flow.steps || [];
+    const authSteps = flow.auth?.enabled ? flow.auth.steps : [];
+    const totalSteps = authSteps.length + mainSteps.length;
+
     const report: ExecutionReport = {
       executionId,
       flowId: flow.flowId,
       status: 'running',
       startTime,
       stepsCompleted: 0,
-      totalSteps: flow.steps.length,
+      totalSteps,
       errors: [],
       screenshots: [],
       extractedData: {},
@@ -96,32 +126,106 @@ export class FlowExecutionService {
     try {
       await this.initialize();
 
-      // If a startUrl is defined on the flow, always navigate to it first.
-      // This matches how flows are designed in the MCP playground, where
-      // the initial page is set via flow.startUrl and steps assume that
-      // page is already loaded (e.g. login form fields).
-      if (flow.startUrl) {
-        console.log(`Navigating to flow startUrl: ${flow.startUrl}`);
-        try {
-          await this.page!.goto(flow.startUrl, {
+      // Execute auth steps first if enabled
+      if (flow.auth?.enabled && authSteps.length > 0) {
+        console.log(`Executing ${authSteps.length} authentication steps`);
+        
+        // Navigate to auth URL if provided, otherwise use startUrl
+        const authStartUrl = flow.auth.url || flow.startUrl;
+        if (authStartUrl) {
+          console.log(`Navigating to auth URL: ${authStartUrl}`);
+          await this.page!.goto(authStartUrl, {
             waitUntil: 'networkidle',
             timeout: 30000,
           });
           this.currentUrl = this.page!.url();
-        } catch (err) {
-          console.error('Error navigating to flow startUrl:', err);
-          throw err;
+        }
+
+        for (const authStep of authSteps) {
+          try {
+            const previousUrl = this.currentUrl;
+            console.log(`Executing auth step ${authStep.stepId}: ${authStep.actionType}`);
+            
+            // Convert auth step to FlowStep format for execution
+            const step: FlowStep = {
+              stepId: authStep.stepId,
+              action: authStep.actionType,
+              actionType: authStep.actionType,
+              params: authStep.params,
+              description: authStep.description,
+            };
+            
+            await this.executeStep(step, report, executionId);
+            
+            // Wait for navigation if needed
+            if (authStep.actionType === 'click' || authStep.actionType === 'submit') {
+              await this.page!.waitForTimeout(2000);
+            } else {
+              await this.page!.waitForTimeout(500);
+            }
+            
+            const newUrl = this.page!.url();
+            if (newUrl !== previousUrl && previousUrl) {
+              console.log(`Auth page transition: ${previousUrl} -> ${newUrl}`);
+              this.pageTransitions.push({
+                stepId: authStep.stepId,
+                fromUrl: previousUrl,
+                toUrl: newUrl,
+                timestamp: new Date().toISOString(),
+              });
+              this.currentUrl = newUrl;
+            } else {
+              this.currentUrl = newUrl;
+            }
+            
+            report.stepsCompleted++;
+          } catch (error: any) {
+            console.error(`Error executing auth step ${authStep.stepId}:`, error);
+            report.errors.push({
+              stepId: authStep.stepId,
+              action: authStep.actionType,
+              error: error.message,
+              timestamp: new Date().toISOString(),
+            });
+            
+            await this.captureScreenshot(executionId, `error_auth_step_${authStep.stepId}`, report);
+            
+            if (flow.errorHandling?.continueOnError === false) {
+              throw error;
+            }
+          }
+        }
+        
+        // Wait a bit after auth to ensure we're on the target page
+        await this.page!.waitForTimeout(2000);
+      } else {
+        // If no auth, navigate to startUrl
+        if (flow.startUrl) {
+          console.log(`Navigating to flow startUrl: ${flow.startUrl}`);
+          try {
+            await this.page!.goto(flow.startUrl, {
+              waitUntil: 'networkidle',
+              timeout: 30000,
+            });
+            this.currentUrl = this.page!.url();
+          } catch (err) {
+            console.error('Error navigating to flow startUrl:', err);
+            throw err;
+          }
         }
       }
 
-      for (const step of flow.steps) {
+      // Execute main action steps
+      for (const step of mainSteps) {
         try {
           const previousUrl = this.currentUrl;
-          console.log(`Executing step ${step.stepId}: ${step.action}`);
+          // Get action from actionType (new format) or action (legacy format)
+          const action = step.actionType || step.action || 'unknown';
+          console.log(`Executing step ${step.stepId}: ${action}`);
           await this.executeStep(step, report, executionId);
           
-          // Wait a bit for any navigation to complete (especially after clicks)
-          if (step.action === 'click') {
+          // Wait a bit for any navigation to complete (especially after clicks/submits)
+          if (action === 'click' || action === 'submit') {
             await this.page!.waitForTimeout(2000);
           } else {
             await this.page!.waitForTimeout(500);
@@ -152,9 +256,10 @@ export class FlowExecutionService {
         } catch (error: any) {
           console.error(`Error executing step ${step.stepId}:`, error);
           
+          const action = step.actionType || step.action || 'unknown';
           report.errors.push({
             stepId: step.stepId,
-            action: step.action,
+            action: action,
             error: error.message,
             timestamp: new Date().toISOString(),
           });
@@ -163,7 +268,7 @@ export class FlowExecutionService {
           await this.captureScreenshot(executionId, `error_step_${step.stepId}`, report);
 
           // Decide whether to continue or stop
-          if (flow.errorHandling?.stopOnError) {
+          if (flow.errorHandling?.continueOnError === false) {
             break;
           }
         }
@@ -177,7 +282,7 @@ export class FlowExecutionService {
         report.currentPage = await this.extractCurrentPageMetadata();
       }
 
-      report.status = report.errors.length === 0 ? 'success' : report.errors.length < flow.steps.length ? 'partial' : 'failed';
+      report.status = report.errors.length === 0 ? 'success' : report.errors.length < totalSteps ? 'partial' : 'failed';
     } catch (error: any) {
       console.error('Fatal execution error:', error);
       report.status = 'failed';
@@ -212,14 +317,17 @@ export class FlowExecutionService {
   private async executeStep(step: FlowStep, report: ExecutionReport, executionId: string) {
     if (!this.page) throw new Error('Page not initialized');
 
+    // Get action from actionType (new format) or action (legacy format)
+    const action = step.actionType || step.action || 'unknown';
+
     const maxRetries = 3;
     let attempt = 0;
 
     while (attempt < maxRetries) {
       try {
-        switch (step.action) {
+        switch (action) {
           case 'navigate':
-            await this.page.goto(step.params.url, { waitUntil: 'networkidle', timeout: 30000 });
+            await this.page.goto(step.params.url, { waitUntil: 'networkidle', timeout: step.params.timeout || 30000 });
             break;
 
           case 'click':
@@ -228,7 +336,12 @@ export class FlowExecutionService {
             break;
 
           case 'input':
+          case 'type': // New format uses 'type' instead of 'input'
             await this.inputText(step.params);
+            break;
+
+          case 'submit':
+            await this.submitForm(step.params);
             break;
 
           case 'wait':
@@ -248,8 +361,16 @@ export class FlowExecutionService {
             await this.selectOption(step.params);
             break;
 
+          case 'screenshot':
+            await this.captureScreenshot(executionId, `step_${step.stepId}`, report);
+            break;
+
+          case 'upload':
+            await this.uploadFile(step.params);
+            break;
+
           default:
-            console.warn(`Unknown action: ${step.action}`);
+            console.warn(`Unknown action: ${action}`);
         }
 
         // Success, break retry loop
@@ -389,7 +510,50 @@ export class FlowExecutionService {
 
   private async selectOption(params: any) {
     const selector = this.getSelector(params);
+    await this.page!.waitForSelector(selector, { timeout: 10000 });
     await this.page!.selectOption(selector, params.value);
+  }
+
+  private async submitForm(params: any) {
+    const selector = this.getSelector(params);
+    await this.page!.waitForSelector(selector, { timeout: 10000 });
+    
+    // Submit can be done by clicking submit button or pressing Enter on form
+    if (selector) {
+      // If it's a form element, submit it directly
+      const element = await this.page!.$(selector);
+      if (element) {
+        const tagName = await element.evaluate((el: any) => el.tagName.toLowerCase());
+        if (tagName === 'form') {
+          await element.evaluate((form: HTMLFormElement) => form.submit());
+        } else {
+          // It's a submit button, click it
+          await this.page!.click(selector);
+        }
+      }
+    } else {
+      // Try to find and submit the form containing the element
+      await this.page!.keyboard.press('Enter');
+    }
+    
+    // Wait for navigation after submit
+    try {
+      await this.page!.waitForLoadState('networkidle', { timeout: 15000 });
+    } catch (e) {
+      console.log('Submit navigation timeout or no navigation occurred');
+    }
+    await this.page!.waitForTimeout(2000);
+  }
+
+  private async uploadFile(params: any) {
+    const selector = this.getSelector(params);
+    await this.page!.waitForSelector(selector, { timeout: 10000 });
+    
+    if (!params.filePath) {
+      throw new Error('File path is required for upload action');
+    }
+    
+    await this.page!.setInputFiles(selector, params.filePath);
   }
 
   private getSelector(params: any): string {

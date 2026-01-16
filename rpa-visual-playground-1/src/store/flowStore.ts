@@ -87,6 +87,14 @@ interface FlowState {
   exportFlow: () => Flow;
   importFlow: (flowJson: Flow) => void;
   mergePageIntoSiteMap: (pageMetadata: any) => void;
+  
+  // Auth section
+  authSteps: FlowStep[];
+  addAuthStep: (step?: Partial<FlowStep>) => void;
+  updateAuthStep: (stepId: number, step: Partial<FlowStep>) => void;
+  removeAuthStep: (stepId: number) => void;
+  setAuthEnabled: (enabled: boolean) => void;
+  setAuthUrl: (url: string) => void;
 }
 
 export const useFlowStore = create<FlowState>((set, get) => ({
@@ -98,13 +106,36 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   // Flow
   flow: null,
-  setFlow: (flow) => set({ 
-    flow, 
-    steps: flow.steps,
-    // Initialize history with the flow steps
-    history: [JSON.parse(JSON.stringify(flow.steps))],
-    historyIndex: 0,
-  }),
+  setFlow: (flow) => {
+    // Convert new format to internal format
+    const actions = flow.actions || flow.steps || [];
+    const steps = actions.map(step => ({
+      stepId: step.stepId,
+      action: step.actionType || step.action || 'click',
+      actionType: step.actionType || step.action || 'click',
+      params: step.params,
+      description: step.description,
+      completed: false,
+    }));
+    
+    const authSteps = flow.auth?.steps?.map(step => ({
+      stepId: step.stepId,
+      action: step.actionType || 'click',
+      actionType: step.actionType || 'click',
+      params: step.params,
+      description: step.description,
+      completed: false,
+    })) || [];
+    
+    set({ 
+      flow, 
+      steps,
+      authSteps,
+      // Initialize history with the flow steps
+      history: [JSON.parse(JSON.stringify(steps))],
+      historyIndex: 0,
+    });
+  },
   updateFlowMetadata: (metadata) => {
     const currentFlow = get().flow;
     if (currentFlow) {
@@ -394,16 +425,6 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     selectedPageIndex: 0,
   }),
 
-  importFlow: (flowJson: Flow) => {
-    set({
-      flow: flowJson,
-      steps: flowJson.steps,
-      selectedStepId: null,
-      // Initialize history with the imported steps
-      history: [JSON.parse(JSON.stringify(flowJson.steps))],
-      historyIndex: 0,
-    });
-  },
 
   mergePageIntoSiteMap: (pageMetadata) => {
     const { siteMap } = get();
@@ -461,21 +482,145 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     set({ siteMap: updatedSiteMap });
   },
 
-  exportFlow: () => {
-    const { flow, steps, siteMap } = get();
+  // Auth section
+  authSteps: [],
+  addAuthStep: (stepData) => {
+    const authSteps = get().authSteps;
+    const newStepId = authSteps.length > 0 ? Math.max(...authSteps.map(s => s.stepId)) + 1 : 1;
     
+    const newStep: FlowStep = {
+      stepId: newStepId,
+      action: stepData?.action || 'click',
+      actionType: stepData?.actionType || stepData?.action || 'click',
+      params: {
+        timeout: 30000,
+        ...stepData?.params,
+      },
+      description: stepData?.description || '',
+    };
+
+    set({ authSteps: [...authSteps, newStep] });
+    get().saveHistory();
+  },
+  updateAuthStep: (stepId, updatedStep) => {
+    const authSteps = get().authSteps.map((step) =>
+      step.stepId === stepId ? { ...step, ...updatedStep } : step
+    );
+    set({ authSteps });
+    get().saveHistory();
+  },
+  removeAuthStep: (stepId) => {
+    const authSteps = get().authSteps.filter((step) => step.stepId !== stepId);
+    const renumberedSteps = authSteps.map((step, index) => ({
+      ...step,
+      stepId: index + 1,
+    }));
+    set({ authSteps: renumberedSteps });
+    get().saveHistory();
+  },
+  setAuthEnabled: (enabled) => {
+    const flow = get().flow;
+    if (flow) {
+      set({
+        flow: {
+          ...flow,
+          auth: {
+            ...flow.auth,
+            enabled,
+            steps: get().authSteps,
+          },
+        },
+      });
+    }
+  },
+  setAuthUrl: (url) => {
+    const flow = get().flow;
+    if (flow) {
+      set({
+        flow: {
+          ...flow,
+          auth: {
+            ...flow.auth,
+            url,
+            steps: get().authSteps,
+          },
+        },
+      });
+    }
+  },
+
+  exportFlow: () => {
+    const { flow, steps, authSteps, siteMap } = get();
+    
+    // Convert steps to new format (actions)
+    const actions = steps.map(step => ({
+      stepId: step.stepId,
+      actionType: step.actionType || step.action,
+      params: step.params,
+      description: step.description,
+    }));
+
+    // Convert auth steps
+    const auth = flow?.auth?.enabled ? {
+      enabled: true,
+      url: flow.auth.url,
+      steps: authSteps.map(step => ({
+        stepId: step.stepId,
+        actionType: step.actionType || step.action,
+        params: step.params,
+        description: step.description,
+      })),
+    } : undefined;
+
     return {
       flowId: flow?.flowId || `flow_${Date.now()}`,
       name: flow?.name || 'Untitled Flow',
       description: flow?.description || '',
       startUrl: flow?.startUrl || siteMap?.baseUrl || '',
-      steps,
-      variables: flow?.variables || {},
+      ...(auth && { auth }),
+      actions,
+      return: flow?.return,
       errorHandling: flow?.errorHandling || {
+        retryOnFailure: true,
         maxRetries: 3,
-        screenshotOnError: true,
-        fallbackSelectors: true,
+        retryDelay: 5000,
+        captureScreenshotOnError: true,
+        continueOnError: false,
       },
+      // Legacy format for backward compatibility
+      steps: steps.length > 0 && !actions.length ? steps : undefined,
+      variables: flow?.variables,
     };
+  },
+  
+  importFlow: (flowJson: Flow) => {
+    // Convert new format to internal format
+    const actions = flowJson.actions || flowJson.steps || [];
+    const steps = actions.map(step => ({
+      stepId: step.stepId,
+      action: step.actionType || step.action || 'click',
+      actionType: step.actionType || step.action || 'click',
+      params: step.params,
+      description: step.description,
+      completed: false,
+    }));
+
+    const authSteps = flowJson.auth?.steps?.map(step => ({
+      stepId: step.stepId,
+      action: step.actionType || 'click',
+      actionType: step.actionType || 'click',
+      params: step.params,
+      description: step.description,
+      completed: false,
+    })) || [];
+
+    set({
+      flow: flowJson,
+      steps,
+      authSteps,
+      selectedStepId: null,
+      history: [JSON.parse(JSON.stringify(steps))],
+      historyIndex: 0,
+    });
   },
 }));
