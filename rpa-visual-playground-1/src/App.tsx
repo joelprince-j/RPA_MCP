@@ -34,6 +34,7 @@
 
 // export default App
 
+import { useState } from 'react';
 import Header from './components/Header/Header';
 import { FlowBuilder } from './components/FlowBuilder/FlowBuilder';
 import { StepConfigPanel } from './components/StepConfigPanel/StepConfigPanel';
@@ -41,14 +42,49 @@ import { SiteMapViewer } from './components/SiteMapViewer/SiteMapViewer';
 import { FlowPreview } from './components/FlowPreview/FlowPreview';
 import { PageTransitionModal } from './components/PageTransitionModal/PageTransitionModal';
 import { JsonEditor } from './components/JsonEditor/JsonEditor';
+import { LandingPage } from './components/LandingPage/LandingPage';
+import { CodegenMode } from './components/CodegenMode/CodegenMode';
 import { useFlowStore } from './store/flowStore';
+import type { Flow } from './types/flow.types';
 
 function App() {
-  const { isSiteMapOpen, setSiteMapOpen } = useFlowStore();
+  const { isSiteMapOpen, setSiteMapOpen, importFlow } = useFlowStore();
+  
+  // Persist mode selection in localStorage
+  const [appMode, setAppMode] = useState<'landing' | 'playground' | 'codegen'>(() => {
+    const saved = localStorage.getItem('rpa-app-mode');
+    return (saved as 'landing' | 'playground' | 'codegen') || 'landing';
+  });
 
+  const handleModeSelect = (mode: 'playground' | 'codegen') => {
+    setAppMode(mode);
+    localStorage.setItem('rpa-app-mode', mode);
+  };
+
+  const handleFlowGenerated = (flow: Flow) => {
+    importFlow(flow);
+    setAppMode('playground');
+  };
+
+  const handleBackToLanding = () => {
+    setAppMode('landing');
+    localStorage.setItem('rpa-app-mode', 'landing');
+  };
+
+  // Show landing page
+  if (appMode === 'landing') {
+    return <LandingPage onSelectMode={handleModeSelect} />;
+  }
+
+  // Show codegen mode
+  if (appMode === 'codegen') {
+    return <CodegenMode onFlowGenerated={handleFlowGenerated} onBack={handleBackToLanding} />;
+  }
+
+  // Show playground mode (existing app)
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Header />
+      <Header onBackToHome={handleBackToLanding} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar - Site Map */}

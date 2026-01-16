@@ -1,0 +1,348 @@
+{
+  "flowId": "flow_unique_id",
+  "name": "Flow Name",
+  "description": "Description of what this flow does",
+  "startUrl": "https://example.com",
+  "auth": {
+    "enabled": "",
+    "url": "",
+    "steps": [
+      {
+        "stepId": 1,
+        "actionType": "",
+        "params": {
+          "timeout": "",
+          "elementId": "",
+          "selectors": {
+            "css": "",
+            "xpath": "",
+            "text": ""
+          }
+        },
+        "description": ""
+      }
+    ]
+  },
+  "actions": [
+     {
+        "stepId": 1,
+        "actionType": "",
+        "params": {
+          "timeout": "",
+          "elementId": "",
+          "selectors": {
+            "css": "",
+            "xpath": "",
+            "text": ""
+          }
+        },
+        "description": ""
+      }
+  ],
+  "return": {
+    "format": "json",
+    "fields": [
+      "pageTitle",
+      "products",
+      "downloadUrl",
+      "itemCount"
+    ],
+    "outputs": [
+      {
+        "type": "file",
+        "enabled": true,
+        "format": "json",
+        "path": "output/data.json",
+        "compression": "none"
+      },
+      {
+        "type": "file",
+        "enabled": false,
+        "format": "csv",
+        "path": "output/data.csv",
+        "delimiter": ",",
+        "includeHeaders": true
+      },
+      {
+        "type": "file",
+        "enabled": false,
+        "format": "excel",
+        "path": "output/data.xlsx",
+        "sheetName": "Data"
+      },
+      {
+        "type": "email",
+        "enabled": false,
+        "provider": "smtp",
+        "config": {
+          "host": "smtp.gmail.com",
+          "port": 587,
+          "secure": false,
+          "auth": {
+            "user": "${SMTP_USER}",
+            "pass": "${SMTP_PASSWORD}"
+          }
+        },
+        "from": "crawler@example.com",
+        "to": [
+          "recipient1@example.com",
+          "recipient2@example.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Crawler Results - ${flowName} - ${date}",
+        "bodyTemplate": "html",
+        "body": "<h2>Crawling Results</h2><p>Flow: ${flowName}</p><p>Date: ${date}</p><p>Items found: ${itemCount}</p>",
+        "attachData": true,
+        "attachFormat": "json",
+        "attachScreenshots": false,
+        "sendOnlyIfData": true,
+        "condition": {
+          "type": "data-count",
+          "field": "products",
+          "operator": "greater-than",
+          "value": 0
+        }
+      },
+      {
+        "type": "email",
+        "enabled": false,
+        "provider": "sendgrid",
+        "config": {
+          "apiKey": "${SENDGRID_API_KEY}"
+        },
+        "from": "crawler@example.com",
+        "to": [
+          "${RECIPIENT_EMAIL}"
+        ],
+        "subject": "Daily Report - ${flowName}",
+        "bodyTemplate": "template-id",
+        "templateId": "d-1234567890",
+        "templateData": {
+          "flowName": "${flowName}",
+          "data": "${extractedData}",
+          "summary": "${summary}"
+        },
+        "attachData": true,
+        "attachFormat": "pdf"
+      },
+      {
+        "type": "webhook",
+        "enabled": false,
+        "url": "https://api.example.com/webhook",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer ${API_TOKEN}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "flowId": "${flowId}",
+          "timestamp": "${timestamp}",
+          "data": "${extractedData}"
+        },
+        "retryOnFailure": true,
+        "maxRetries": 3
+      },
+      {
+        "type": "api",
+        "enabled": false,
+        "url": "https://api.example.com/data",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer ${API_TOKEN}",
+          "Content-Type": "application/json"
+        },
+        "bodyMapping": {
+          "title": "${pageTitle}",
+          "items": "${products}",
+          "count": "${itemCount}"
+        },
+        "authentication": {
+          "type": "bearer",
+          "token": "${API_TOKEN}"
+        }
+      },
+      {
+        "type": "database",
+        "enabled": false,
+        "driver": "mongodb",
+        "connection": {
+          "host": "localhost",
+          "port": 27017,
+          "database": "crawler_db",
+          "username": "${DB_USER}",
+          "password": "${DB_PASSWORD}"
+        },
+        "collection": "crawled_data",
+        "operation": "insert",
+        "mapping": {
+          "flowId": "${flowId}",
+          "timestamp": "${timestamp}",
+          "data": "${extractedData}"
+        }
+      },
+      {
+        "type": "database",
+        "enabled": false,
+        "driver": "mysql",
+        "connection": {
+          "host": "localhost",
+          "port": 3306,
+          "database": "crawler_db",
+          "username": "${DB_USER}",
+          "password": "${DB_PASSWORD}"
+        },
+        "table": "products",
+        "operation": "insert",
+        "mapping": {
+          "name": "${products.name}",
+          "price": "${products.price}",
+          "url": "${products.url}",
+          "scraped_at": "${timestamp}"
+        }
+      },
+      {
+        "type": "google-sheets",
+        "enabled": false,
+        "spreadsheetId": "1234567890abcdef",
+        "sheetName": "Crawled Data",
+        "credentials": {
+          "type": "service-account",
+          "keyFile": "path/to/credentials.json"
+        },
+        "operation": "append",
+        "mapping": [
+          "${pageTitle}",
+          "${itemCount}",
+          "${timestamp}"
+        ],
+        "includeHeaders": true,
+        "headers": [
+          "Title",
+          "Count",
+          "Date"
+        ]
+      },
+      {
+        "type": "slack",
+        "enabled": false,
+        "webhookUrl": "${SLACK_WEBHOOK_URL}",
+        "channel": "#crawler-alerts",
+        "username": "Crawler Bot",
+        "iconEmoji": ":robot_face:",
+        "message": {
+          "text": "Crawling completed!",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Flow:* ${flowName}\n*Items Found:* ${itemCount}\n*Status:* Success"
+              }
+            }
+          ]
+        },
+        "attachData": true,
+        "sendOnlyIfData": true
+      },
+      {
+        "type": "telegram",
+        "enabled": false,
+        "botToken": "${TELEGRAM_BOT_TOKEN}",
+        "chatId": "${TELEGRAM_CHAT_ID}",
+        "message": "🤖 *Crawler Report*\n\nFlow: ${flowName}\nItems: ${itemCount}\nTime: ${timestamp}",
+        "parseMode": "Markdown",
+        "attachData": false
+      },
+      {
+        "type": "discord",
+        "enabled": false,
+        "webhookUrl": "${DISCORD_WEBHOOK_URL}",
+        "username": "Crawler Bot",
+        "avatarUrl": "https://example.com/avatar.png",
+        "embeds": [
+          {
+            "title": "Crawling Results",
+            "description": "Flow completed successfully",
+            "color": 3066993,
+            "fields": [
+              {
+                "name": "Flow Name",
+                "value": "${flowName}",
+                "inline": true
+              },
+              {
+                "name": "Items Found",
+                "value": "${itemCount}",
+                "inline": true
+              }
+            ],
+            "timestamp": "${timestamp}"
+          }
+        ]
+      },
+      {
+        "type": "s3",
+        "enabled": false,
+        "bucket": "my-crawler-bucket",
+        "region": "us-east-1",
+        "credentials": {
+          "accessKeyId": "${AWS_ACCESS_KEY}",
+          "secretAccessKey": "${AWS_SECRET_KEY}"
+        },
+        "path": "crawled-data/${flowId}/${date}.json",
+        "format": "json",
+        "acl": "private"
+      },
+      {
+        "type": "google-drive",
+        "enabled": false,
+        "folderId": "1234567890abcdef",
+        "credentials": {
+          "type": "service-account",
+          "keyFile": "path/to/credentials.json"
+        },
+        "fileName": "${flowName}_${date}.json",
+        "format": "json",
+        "mimeType": "application/json"
+      },
+      {
+        "type": "ftp",
+        "enabled": false,
+        "host": "ftp.example.com",
+        "port": 21,
+        "username": "${FTP_USER}",
+        "password": "${FTP_PASSWORD}",
+        "path": "/uploads/${flowId}/${date}.json",
+        "secure": true
+      }
+    ],
+    "notifications": {
+      "onSuccess": {
+        "enabled": true,
+        "channels": [
+          "email"
+        ]
+      },
+      "onFailure": {
+        "enabled": true,
+        "channels": [
+          "email"
+        ]
+      },
+      "onNoData": {
+        "enabled": false,
+        "channels": [
+          "email"
+        ]
+      }
+    }
+  },
+  "errorHandling": {
+    "retryOnFailure": true,
+    "maxRetries": 3,
+    "retryDelay": 2000,
+    "captureScreenshotOnError": true,
+    "continueOnError": false
+  }
+}

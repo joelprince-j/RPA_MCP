@@ -1,0 +1,17 @@
+{
+  "name": "rpa-codegen-backend",
+  "version": "1.0.0",
+  "description": "Backend for RPA Flow Builder Codegen",
+  "main": "WORKING-SERVER.js",
+  "scripts": {
+    "start": "node WORKING-SERVER.js",
+    "dev": "nodemon WORKING-SERVER.js",
+    "test": "node test-server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

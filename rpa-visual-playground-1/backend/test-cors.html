@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        .error {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 CORS Test</h1>
+    <p>This page tests if CORS is working correctly.</p>
+    
+    <div>
+        <button onclick="testHealth()">Test Health Check</button>
+        <button onclick="testStart()">Test Start Recording</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        const resultDiv = document.getElementById('result');
+
+        function showResult(message, isSuccess) {
+            resultDiv.textContent = message;
+            resultDiv.className = isSuccess ? 'success' : 'error';
+        }
+
+        async function testHealth() {
+            showResult('Testing health check...', true);
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                showResult(`✅ SUCCESS!\n\n${JSON.stringify(data, null, 2)}`, true);
+            } catch (error) {
+                showResult(`❌ ERROR!\n\n${error.message}`, false);
+            }
+        }
+
+        async function testStart() {
+            showResult('Testing start recording...', true);
+            try {
+                const response = await fetch(`${API_URL}/api/codegen/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: 'https://example.com' })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                showResult(`✅ SUCCESS!\n\n${JSON.stringify(data, null, 2)}`, true);
+            } catch (error) {
+                showResult(`❌ ERROR!\n\n${error.message}\n\nCheck browser console for details.`, false);
+                console.error('Full error:', error);
+            }
+        }
+
+        // Auto-test on load
+        window.onload = () => {
+            showResult('Click a button to test the API', true);
+        };
+    </script>
+</body>
+</html>

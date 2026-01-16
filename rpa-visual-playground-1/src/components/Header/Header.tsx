@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { useFlowStore } from '../../store/flowStore'
 import { exportFlowToJSON, importFlowFromJSON, exportFlowToPython } from '../../services/flowExporter'
-import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw, FileJson } from 'lucide-react'
+import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw, FileJson, Home } from 'lucide-react'
 import { flowApi, executionApi } from '../../services/api';
 
-export default function Header() {
+interface HeaderProps {
+  onBackToHome?: () => void;
+}
+
+export default function Header({ onBackToHome }: HeaderProps = {}) {
   const { 
     flow, 
     steps, 
@@ -252,6 +256,15 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
     <header className="text-white bg-gray-900 shadow-lg">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600"
+              title="Back to Home"
+            >
+              <Home size={20} />
+            </button>
+          )}
           <h1 className="text-2xl font-bold text-blue-400">RPA Flow Builder</h1>
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <span className="px-2 py-1 bg-gray-800 rounded">
@@ -281,10 +294,10 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
             <input type="file" accept=".json" onChange={handleImport} className="hidden" />
           </label> */}
           <div className="relative group">
-            {/* <button className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600">
+            <button className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded hover:bg-gray-600">
               <Download size={16} />
               <span className="hidden sm:inline">Export</span>
-            </button> */}
+            </button>
             <div className="absolute right-0 z-50 invisible w-48 mt-1 transition-all bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible">
               <button
                 onClick={handleExportJSON}

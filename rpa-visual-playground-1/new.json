@@ -1,0 +1,665 @@
+{
+  "flowId": "flow_unique_id",
+  "name": "Flow Name",
+  "description": "Description of what this flow does",
+  "config": {
+    "headless": false,
+    "timeout": 30000,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  },
+  "startUrl": "https://example.com",
+  "auth": {
+    "enabled": false,
+    "url": "https://example.com/login",
+    "steps": [
+      {
+        "stepId": 1,
+        "action": "click",
+        "params": {
+          "timeout": 30000,
+          "elementId": "elem_2",
+          "selectors": {
+            "css": "button.relative",
+            "xpath": "//button[2]",
+            "text": "Sign in"
+          }
+        },
+        "description": "Click Sign in"
+      },
+      {
+        "stepId": 2,
+        "action": "input",
+        "params": {
+          "timeout": 30000,
+          "elementId": "email",
+          "selectors": {
+            "css": "#email",
+            "xpath": "//input[@id=\"email\"]",
+            "text": ""
+          }
+        },
+        "description": "input email"
+      },
+      {
+        "stepId": 3,
+        "action": "input",
+        "params": {
+          "timeout": 30000,
+          "elementId": "password",
+          "selectors": {
+            "css": "#password",
+            "xpath": "//input[@id=\"password\"]",
+            "text": ""
+          }
+        },
+        "description": "input password"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "action_1",
+      "name": "Navigate to page",
+      "type": "navigate",
+      "url": "https://example.com/page",
+      "waitFor": "networkidle",
+      "enabled": true
+    },
+    {
+        "stepId": 1,
+        "action": "",
+        "params": {
+          "timeout": "",
+          "elementId": "",
+          "selectors": {
+            "css": "",
+            "xpath": "",
+            "text": ""
+          }
+        },
+        "description": ""
+      },
+    {
+      "id": "action_2",
+      "name": "Click button",
+      "type": "click",
+      "selector": ".button-class",
+      "waitBefore": 1000,
+      "waitAfter": 2000,
+      "condition": {
+        "type": "exists",
+        "selector": ".button-class"
+      },
+      "enabled": true
+    },
+    {
+      "id": "action_3",
+      "name": "Fill input field",
+      "type": "fill",
+      "selector": "#search-input",
+      "value": "search term",
+      "clearBefore": true,
+      "pressEnter": false,
+      "enabled": true
+    },
+    {
+      "id": "action_4",
+      "name": "Select dropdown",
+      "type": "select",
+      "selector": "#dropdown",
+      "value": "option-value",
+      "enabled": true
+    },
+    {
+      "id": "action_5",
+      "name": "Hover element",
+      "type": "hover",
+      "selector": ".menu-item",
+      "waitAfter": 500,
+      "enabled": true
+    },
+    {
+      "id": "action_6",
+      "name": "Scroll to element",
+      "type": "scroll",
+      "selector": ".bottom-section",
+      "behavior": "smooth",
+      "enabled": true
+    },
+    {
+      "id": "action_7",
+      "name": "Wait for element",
+      "type": "wait",
+      "waitType": "selector",
+      "selector": ".loaded-content",
+      "timeout": 10000,
+      "enabled": true
+    },
+    {
+      "id": "action_8",
+      "name": "Extract single text",
+      "type": "extract",
+      "extract": {
+        "type": "text",
+        "selector": ".title",
+        "attribute": null,
+        "multiple": false,
+        "transform": "trim",
+        "defaultValue": "N/A"
+      },
+      "saveAs": "pageTitle",
+      "enabled": true
+    },
+    {
+      "id": "action_9",
+      "name": "Extract multiple items",
+      "type": "extract",
+      "extract": {
+        "type": "text",
+        "selector": ".product-item",
+        "multiple": true,
+        "transform": "trim",
+        "nested": {
+          "name": {
+            "selector": ".product-name",
+            "type": "text",
+            "transform": "trim"
+          },
+          "price": {
+            "selector": ".product-price",
+            "type": "text",
+            "transform": "number"
+          },
+          "url": {
+            "selector": "a",
+            "type": "attribute",
+            "attribute": "href"
+          },
+          "image": {
+            "selector": "img",
+            "type": "attribute",
+            "attribute": "src"
+          }
+        }
+      },
+      "saveAs": "products",
+      "enabled": true
+    },
+    {
+      "id": "action_10",
+      "name": "Extract attribute",
+      "type": "extract",
+      "extract": {
+        "type": "attribute",
+        "selector": "a.download-link",
+        "attribute": "href",
+        "multiple": false
+      },
+      "saveAs": "downloadUrl",
+      "enabled": true
+    },
+    {
+      "id": "action_11",
+      "name": "Extract HTML content",
+      "type": "extract",
+      "extract": {
+        "type": "html",
+        "selector": ".content-area",
+        "multiple": false
+      },
+      "saveAs": "htmlContent",
+      "enabled": true
+    },
+    {
+      "id": "action_12",
+      "name": "Count elements",
+      "type": "extract",
+      "extract": {
+        "type": "count",
+        "selector": ".list-item"
+      },
+      "saveAs": "itemCount",
+      "enabled": true
+    },
+    {
+      "id": "action_13",
+      "name": "Take screenshot",
+      "type": "screenshot",
+      "path": "screenshots/page.png",
+      "fullPage": true,
+      "enabled": true
+    },
+    {
+      "id": "action_14",
+      "name": "Execute JavaScript",
+      "type": "evaluate",
+      "script": "return document.title;",
+      "saveAs": "pageTitle",
+      "enabled": true
+    },
+    {
+      "id": "action_15",
+      "name": "Pagination loop",
+      "type": "loop",
+      "loop": {
+        "type": "pagination",
+        "maxIterations": 10,
+        "nextButtonSelector": ".pagination-next",
+        "condition": {
+          "type": "exists",
+          "selector": ".pagination-next:not(.disabled)"
+        },
+        "actions": [
+          {
+            "id": "loop_action_1",
+            "type": "extract",
+            "extract": {
+              "type": "text",
+              "selector": ".item",
+              "multiple": true
+            },
+            "saveAs": "items_page_${iteration}",
+            "enabled": true
+          },
+          {
+            "id": "loop_action_2",
+            "type": "click",
+            "selector": ".pagination-next",
+            "waitAfter": 2000,
+            "enabled": true
+          }
+        ]
+      },
+      "enabled": true
+    },
+    {
+      "id": "action_16",
+      "name": "List items loop",
+      "type": "loop",
+      "loop": {
+        "type": "list-items",
+        "itemSelector": ".list-item",
+        "maxIterations": 50,
+        "actions": [
+          {
+            "id": "loop_action_3",
+            "type": "click",
+            "selector": "current",
+            "waitAfter": 1000,
+            "enabled": true
+          },
+          {
+            "id": "loop_action_4",
+            "type": "extract",
+            "extract": {
+              "type": "text",
+              "selector": ".detail",
+              "multiple": false
+            },
+            "saveAs": "item_detail_${iteration}",
+            "enabled": true
+          },
+          {
+            "id": "loop_action_5",
+            "type": "navigate",
+            "url": "back",
+            "enabled": true
+          }
+        ]
+      },
+      "enabled": true
+    },
+    {
+      "id": "action_17",
+      "name": "Conditional loop",
+      "type": "loop",
+      "loop": {
+        "type": "while",
+        "maxIterations": 20,
+        "condition": {
+          "type": "exists",
+          "selector": ".load-more-button"
+        },
+        "actions": [
+          {
+            "id": "loop_action_6",
+            "type": "click",
+            "selector": ".load-more-button",
+            "waitAfter": 2000,
+            "enabled": true
+          }
+        ]
+      },
+      "enabled": true
+    },
+    {
+      "id": "action_18",
+      "name": "Conditional action",
+      "type": "click",
+      "selector": ".accept-cookies",
+      "condition": {
+        "type": "visible",
+        "selector": ".cookie-banner"
+      },
+      "enabled": true
+    }
+  ],
+  "return": {
+    "format": "json",
+    "fields": [
+      "pageTitle",
+      "products",
+      "downloadUrl",
+      "itemCount"
+    ],
+    "outputs": [
+      {
+        "type": "file",
+        "enabled": true,
+        "format": "json",
+        "path": "output/data.json",
+        "compression": "none"
+      },
+      {
+        "type": "file",
+        "enabled": false,
+        "format": "csv",
+        "path": "output/data.csv",
+        "delimiter": ",",
+        "includeHeaders": true
+      },
+      {
+        "type": "file",
+        "enabled": false,
+        "format": "excel",
+        "path": "output/data.xlsx",
+        "sheetName": "Data"
+      },
+      {
+        "type": "email",
+        "enabled": false,
+        "provider": "smtp",
+        "config": {
+          "host": "smtp.gmail.com",
+          "port": 587,
+          "secure": false,
+          "auth": {
+            "user": "${SMTP_USER}",
+            "pass": "${SMTP_PASSWORD}"
+          }
+        },
+        "from": "crawler@example.com",
+        "to": [
+          "recipient1@example.com",
+          "recipient2@example.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Crawler Results - ${flowName} - ${date}",
+        "bodyTemplate": "html",
+        "body": "<h2>Crawling Results</h2><p>Flow: ${flowName}</p><p>Date: ${date}</p><p>Items found: ${itemCount}</p>",
+        "attachData": true,
+        "attachFormat": "json",
+        "attachScreenshots": false,
+        "sendOnlyIfData": true,
+        "condition": {
+          "type": "data-count",
+          "field": "products",
+          "operator": "greater-than",
+          "value": 0
+        }
+      },
+      {
+        "type": "email",
+        "enabled": false,
+        "provider": "sendgrid",
+        "config": {
+          "apiKey": "${SENDGRID_API_KEY}"
+        },
+        "from": "crawler@example.com",
+        "to": [
+          "${RECIPIENT_EMAIL}"
+        ],
+        "subject": "Daily Report - ${flowName}",
+        "bodyTemplate": "template-id",
+        "templateId": "d-1234567890",
+        "templateData": {
+          "flowName": "${flowName}",
+          "data": "${extractedData}",
+          "summary": "${summary}"
+        },
+        "attachData": true,
+        "attachFormat": "pdf"
+      },
+      {
+        "type": "webhook",
+        "enabled": false,
+        "url": "https://api.example.com/webhook",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer ${API_TOKEN}",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "flowId": "${flowId}",
+          "timestamp": "${timestamp}",
+          "data": "${extractedData}"
+        },
+        "retryOnFailure": true,
+        "maxRetries": 3
+      },
+      {
+        "type": "api",
+        "enabled": false,
+        "url": "https://api.example.com/data",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer ${API_TOKEN}",
+          "Content-Type": "application/json"
+        },
+        "bodyMapping": {
+          "title": "${pageTitle}",
+          "items": "${products}",
+          "count": "${itemCount}"
+        },
+        "authentication": {
+          "type": "bearer",
+          "token": "${API_TOKEN}"
+        }
+      },
+      {
+        "type": "database",
+        "enabled": false,
+        "driver": "mongodb",
+        "connection": {
+          "host": "localhost",
+          "port": 27017,
+          "database": "crawler_db",
+          "username": "${DB_USER}",
+          "password": "${DB_PASSWORD}"
+        },
+        "collection": "crawled_data",
+        "operation": "insert",
+        "mapping": {
+          "flowId": "${flowId}",
+          "timestamp": "${timestamp}",
+          "data": "${extractedData}"
+        }
+      },
+      {
+        "type": "database",
+        "enabled": false,
+        "driver": "mysql",
+        "connection": {
+          "host": "localhost",
+          "port": 3306,
+          "database": "crawler_db",
+          "username": "${DB_USER}",
+          "password": "${DB_PASSWORD}"
+        },
+        "table": "products",
+        "operation": "insert",
+        "mapping": {
+          "name": "${products.name}",
+          "price": "${products.price}",
+          "url": "${products.url}",
+          "scraped_at": "${timestamp}"
+        }
+      },
+      {
+        "type": "google-sheets",
+        "enabled": false,
+        "spreadsheetId": "1234567890abcdef",
+        "sheetName": "Crawled Data",
+        "credentials": {
+          "type": "service-account",
+          "keyFile": "path/to/credentials.json"
+        },
+        "operation": "append",
+        "mapping": [
+          "${pageTitle}",
+          "${itemCount}",
+          "${timestamp}"
+        ],
+        "includeHeaders": true,
+        "headers": [
+          "Title",
+          "Count",
+          "Date"
+        ]
+      },
+      {
+        "type": "slack",
+        "enabled": false,
+        "webhookUrl": "${SLACK_WEBHOOK_URL}",
+        "channel": "#crawler-alerts",
+        "username": "Crawler Bot",
+        "iconEmoji": ":robot_face:",
+        "message": {
+          "text": "Crawling completed!",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Flow:* ${flowName}\n*Items Found:* ${itemCount}\n*Status:* Success"
+              }
+            }
+          ]
+        },
+        "attachData": true,
+        "sendOnlyIfData": true
+      },
+      {
+        "type": "telegram",
+        "enabled": false,
+        "botToken": "${TELEGRAM_BOT_TOKEN}",
+        "chatId": "${TELEGRAM_CHAT_ID}",
+        "message": "🤖 *Crawler Report*\n\nFlow: ${flowName}\nItems: ${itemCount}\nTime: ${timestamp}",
+        "parseMode": "Markdown",
+        "attachData": false
+      },
+      {
+        "type": "discord",
+        "enabled": false,
+        "webhookUrl": "${DISCORD_WEBHOOK_URL}",
+        "username": "Crawler Bot",
+        "avatarUrl": "https://example.com/avatar.png",
+        "embeds": [
+          {
+            "title": "Crawling Results",
+            "description": "Flow completed successfully",
+            "color": 3066993,
+            "fields": [
+              {
+                "name": "Flow Name",
+                "value": "${flowName}",
+                "inline": true
+              },
+              {
+                "name": "Items Found",
+                "value": "${itemCount}",
+                "inline": true
+              }
+            ],
+            "timestamp": "${timestamp}"
+          }
+        ]
+      },
+      {
+        "type": "s3",
+        "enabled": false,
+        "bucket": "my-crawler-bucket",
+        "region": "us-east-1",
+        "credentials": {
+          "accessKeyId": "${AWS_ACCESS_KEY}",
+          "secretAccessKey": "${AWS_SECRET_KEY}"
+        },
+        "path": "crawled-data/${flowId}/${date}.json",
+        "format": "json",
+        "acl": "private"
+      },
+      {
+        "type": "google-drive",
+        "enabled": false,
+        "folderId": "1234567890abcdef",
+        "credentials": {
+          "type": "service-account",
+          "keyFile": "path/to/credentials.json"
+        },
+        "fileName": "${flowName}_${date}.json",
+        "format": "json",
+        "mimeType": "application/json"
+      },
+      {
+        "type": "ftp",
+        "enabled": false,
+        "host": "ftp.example.com",
+        "port": 21,
+        "username": "${FTP_USER}",
+        "password": "${FTP_PASSWORD}",
+        "path": "/uploads/${flowId}/${date}.json",
+        "secure": true
+      }
+    ],
+    "notifications": {
+      "onSuccess": {
+        "enabled": true,
+        "channels": [
+          "email",
+          "slack"
+        ]
+      },
+      "onFailure": {
+        "enabled": true,
+        "channels": [
+          "email",
+          "slack",
+          "telegram"
+        ]
+      },
+      "onNoData": {
+        "enabled": false,
+        "channels": [
+          "email"
+        ]
+      }
+    }
+  },
+  "errorHandling": {
+    "retryOnFailure": true,
+    "maxRetries": 3,
+    "retryDelay": 2000,
+    "captureScreenshotOnError": true,
+    "continueOnError": false
+  },
+  "variables": {
+    "EMAIL": "user@example.com",
+    "PASSWORD": "password123",
+    "SEARCH_TERM": "test query"
+  }
+}
