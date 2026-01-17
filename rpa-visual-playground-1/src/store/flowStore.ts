@@ -36,7 +36,8 @@ interface FlowState {
 
   // Selected step
   selectedStepId: number | null;
-  setSelectedStepId: (stepId: number | null) => void;
+  selectedStepIsAuth: boolean;
+  setSelectedStepId: (stepId: number | null, isAuth?: boolean) => void;
 
   // Swap mode
   swapModeStepId: number | null;
@@ -375,7 +376,8 @@ export const useFlowStore = create<FlowState>((set, get) => ({
 
   // Selected step
   selectedStepId: null,
-  setSelectedStepId: (stepId) => set({ selectedStepId: stepId }),
+  selectedStepIsAuth: false,
+  setSelectedStepId: (stepId, isAuth = false) => set({ selectedStepId: stepId, selectedStepIsAuth: isAuth }),
 
   // Swap mode
   swapModeStepId: null,

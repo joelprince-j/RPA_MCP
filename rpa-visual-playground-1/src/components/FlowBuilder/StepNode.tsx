@@ -142,12 +142,21 @@ import {
   List,
   Upload,
   CheckCircle2,
+  Send,
+  Camera,
+  Database,
 } from 'lucide-react';
 
 interface StepNodeProps {
   data: {
     step: FlowStep;
     isSwapMode?: boolean;
+    isAuthStep?: boolean;
+    isOutputNode?: boolean;
+    isAddOutputButton?: boolean;
+    isSectionHeader?: boolean;
+    sectionType?: 'auth' | 'action' | 'output';
+    outputIndex?: number;
   };
   selected?: boolean;
 }
@@ -156,11 +165,14 @@ const ACTION_ICONS = {
   navigate: Navigation,
   click: MousePointer2,
   input: Type,
+  type: Type,
+  submit: Send,
   wait: Clock,
   extract: Download,
   scroll: ArrowDown,
   select: List,
   upload: Upload,
+  screenshot: Camera,
 };
 
 const ACTION_COLORS = {
@@ -184,6 +196,20 @@ const ACTION_COLORS = {
     iconBg: 'bg-purple-500',
     text: 'text-purple-100',
     badge: 'bg-purple-500/30 text-purple-200',
+  },
+  type: {
+    bg: 'bg-purple-600/20',
+    border: 'border-purple-500',
+    iconBg: 'bg-purple-500',
+    text: 'text-purple-100',
+    badge: 'bg-purple-500/30 text-purple-200',
+  },
+  submit: {
+    bg: 'bg-emerald-600/20',
+    border: 'border-emerald-500',
+    iconBg: 'bg-emerald-500',
+    text: 'text-emerald-100',
+    badge: 'bg-emerald-500/30 text-emerald-200',
   },
   wait: {
     bg: 'bg-yellow-600/20',
@@ -220,14 +246,91 @@ const ACTION_COLORS = {
     text: 'text-red-100',
     badge: 'bg-red-500/30 text-red-200',
   },
+  screenshot: {
+    bg: 'bg-cyan-600/20',
+    border: 'border-cyan-500',
+    iconBg: 'bg-cyan-500',
+    text: 'text-cyan-100',
+    badge: 'bg-cyan-500/30 text-cyan-200',
+  },
 };
 
 export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
-  const { step, isSwapMode } = data;
+  const { step, isSwapMode, isAuthStep, isOutputNode, isAddOutputButton, isSectionHeader, sectionType } = data;
+  
+  // Special rendering for Section Headers
+  if (isSectionHeader) {
+    const sectionColors = {
+      auth: 'border-amber-500 bg-amber-500/10 text-amber-300',
+      action: 'border-blue-500 bg-blue-500/10 text-blue-300',
+      output: 'border-purple-500 bg-purple-500/10 text-purple-300',
+    };
+    
+    const sectionIcons = {
+      auth: '🔐',
+      action: '⚡',
+      output: '📤',
+    };
+    
+    return (
+      <div className={`rounded-xl border-2 ${sectionColors[sectionType!]} backdrop-blur-sm min-w-[280px] max-w-[320px] shadow-lg pointer-events-none`}>
+        <Handle
+          type="target"
+          position={Position.Top}
+          className="w-4 h-4 !bg-gray-500 !border-2 !border-[#1a1d29] !rounded-full"
+        />
+        <div className="p-4 text-center">
+          <div className="text-2xl mb-1">{sectionIcons[sectionType!]}</div>
+          <div className="text-sm font-bold uppercase tracking-wider">{step.description}</div>
+        </div>
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          className="w-4 h-4 !bg-gray-500 !border-2 !border-[#1a1d29] !rounded-full"
+        />
+      </div>
+    );
+  }
+  
+  // Special rendering for Add Output button
+  if (isAddOutputButton) {
+    return (
+      <div className="rounded-xl border-2 border-dashed border-gray-600 bg-gray-800/30 backdrop-blur-sm min-w-[280px] max-w-[320px] shadow-lg transition-all hover:border-purple-500 hover:bg-purple-500/10 cursor-pointer">
+        <div className="p-6 text-center">
+          <div className="mb-2 text-purple-400">
+            <Database size={32} className="mx-auto" />
+          </div>
+          <div className="text-sm font-semibold text-gray-200">Add Output</div>
+          <div className="text-xs text-gray-400 mt-1">Configure where to send results</div>
+        </div>
+      </div>
+    );
+  }
+  
   // Support both action (legacy) and actionType (new format)
   const action = step.actionType || step.action || 'click';
   const Icon = ACTION_ICONS[action as keyof typeof ACTION_ICONS] || ACTION_ICONS.click;
-  const colors = ACTION_COLORS[action as keyof typeof ACTION_COLORS] || ACTION_COLORS.click;
+  
+  // Use purple color for output nodes, amber for auth, blue for actions
+  const colors = isOutputNode ? {
+    bg: 'bg-purple-600/20',
+    border: 'border-purple-500',
+    iconBg: 'bg-purple-500',
+    text: 'text-purple-100',
+    badge: 'bg-purple-500/30 text-purple-200',
+  } : isAuthStep ? {
+    bg: 'bg-amber-600/20',
+    border: 'border-amber-500',
+    iconBg: 'bg-amber-500',
+    text: 'text-amber-100',
+    badge: 'bg-amber-500/30 text-amber-200',
+  } : {
+    bg: 'bg-blue-600/20',
+    border: 'border-blue-500',
+    iconBg: 'bg-blue-500',
+    text: 'text-blue-100',
+    badge: 'bg-blue-500/30 text-blue-200',
+  };
 
   return (
     <div
@@ -251,7 +354,7 @@ export const StepNode: React.FC<StepNodeProps> = ({ data, selected }) => {
           </div>
           <div>
             <div className="text-xs font-semibold text-white/80 uppercase tracking-wide">
-              Step {step.stepId}
+              {isOutputNode ? '📤 Output' : isAuthStep ? '🔐 Auth' : 'Action'} {step.stepId}
             </div>
             <div className="text-xs font-bold text-white capitalize">
               {action}
@@ -316,7 +419,10 @@ function getDefaultDescription(step: FlowStep): string {
     case 'click':
       return `Click ${step.params.elementId || 'element'}`;
     case 'input':
+    case 'type':
       return `Enter text into ${step.params.elementId || 'field'}`;
+    case 'submit':
+      return `Submit ${step.params.elementId || 'form'}`;
     case 'wait':
       return `Wait for ${step.params.condition || 'condition'}`;
     case 'extract':
@@ -327,7 +433,9 @@ function getDefaultDescription(step: FlowStep): string {
       return `Select option in ${step.params.elementId || 'dropdown'}`;
     case 'upload':
       return `Upload file`;
+    case 'screenshot':
+      return `Capture screenshot`;
     default:
-      return step.action;
+      return action;
   }
 }

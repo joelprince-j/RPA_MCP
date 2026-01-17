@@ -62,8 +62,9 @@ export interface Auth {
 
 // Return section types
 export interface ReturnOutput {
-  type: 's3' | 'local' | 'api' | 'database';
+  type: 's3' | 'local' | 'api' | 'database' | 'email' | 'slack' | 'outlook';
   enabled: boolean;
+  name?: string;
   bucket?: string;
   region?: string;
   credentials?: {

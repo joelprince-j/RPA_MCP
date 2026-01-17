@@ -13,21 +13,34 @@ import { SelectConfig } from './configs/SelectConfig';
 import { UploadConfig } from './configs/UploadConfig';
 
 export const StepConfigPanel: React.FC = () => {
-  const { selectedStepId, steps, updateStep, setSelectedStepId, duplicateStep } = useFlowStore();
+  const { 
+    selectedStepId, 
+    selectedStepIsAuth,
+    steps, 
+    authSteps,
+    updateStep, 
+    updateAuthStep,
+    setSelectedStepId, 
+    duplicateStep 
+  } = useFlowStore();
 
-  const selectedStep = steps.find((s) => s.stepId === selectedStepId);
+  // Use the flag to determine which array to search
+  const currentStep = selectedStepIsAuth 
+    ? authSteps.find((s) => s.stepId === selectedStepId)
+    : steps.find((s) => s.stepId === selectedStepId);
+  const isAuthStep = selectedStepIsAuth;
 
   const { register, handleSubmit, reset, watch, setValue } = useForm<FlowStep>({
-    defaultValues: selectedStep,
+    defaultValues: currentStep,
   });
 
   useEffect(() => {
-    if (selectedStep) {
-      reset(selectedStep);
+    if (currentStep) {
+      reset(currentStep);
     }
-  }, [selectedStep, reset]);
+  }, [currentStep, reset]);
 
-  if (!selectedStep) {
+  if (!currentStep) {
     return (
       <div className="flex items-center justify-center h-full p-8 bg-[#1a1d29]">
         <div className="text-center max-w-xs">
@@ -52,10 +65,14 @@ export const StepConfigPanel: React.FC = () => {
   }
 
   const onSubmit = (data: FlowStep) => {
-    updateStep(selectedStepId!, data);
+    if (isAuthStep) {
+      updateAuthStep(selectedStepId!, data);
+    } else {
+      updateStep(selectedStepId!, data);
+    }
   };
 
-  const action = watch('action');
+  const action = watch('action') || watch('actionType');
 
   const handleDuplicate = () => {
     duplicateStep(selectedStepId!);
@@ -67,20 +84,22 @@ export const StepConfigPanel: React.FC = () => {
       <div className="flex items-center justify-between p-4 border-b border-gray-800/50 bg-[#1a1d29]">
         <div>
           <h3 className="font-semibold text-gray-200 text-sm">
-            Step {selectedStep.stepId}
+            {isAuthStep ? '🔐 Auth' : 'Action'} {currentStep.stepId}
           </h3>
           <p className="text-xs text-gray-400 mt-0.5 capitalize">
-            {selectedStep.action}
+            {currentStep.actionType || currentStep.action}
           </p>
         </div>
         <div className="flex gap-1.5">
-          <button
-            onClick={handleDuplicate}
-            className="p-1.5 hover:bg-gray-800/50 rounded transition-colors"
-            title="Duplicate step"
-          >
-            <Copy size={16} className="text-gray-400" />
-          </button>
+          {!isAuthStep && (
+            <button
+              onClick={handleDuplicate}
+              className="p-1.5 hover:bg-gray-800/50 rounded transition-colors"
+              title="Duplicate step"
+            >
+              <Copy size={16} className="text-gray-400" />
+            </button>
+          )}
           <button
             onClick={() => setSelectedStepId(null)}
             className="p-1.5 hover:bg-gray-800/50 rounded transition-colors"
@@ -102,10 +121,13 @@ export const StepConfigPanel: React.FC = () => {
           <select {...register('action')} className="w-full px-3 py-2 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="navigate" className="bg-gray-800 text-white">Navigate</option>
             <option value="click" className="bg-gray-800 text-white">Click</option>
+            <option value="type" className="bg-gray-800 text-white">Type</option>
             <option value="input" className="bg-gray-800 text-white">Input</option>
+            <option value="submit" className="bg-gray-800 text-white">Submit</option>
             <option value="wait" className="bg-gray-800 text-white">Wait</option>
             <option value="extract" className="bg-gray-800 text-white">Extract</option>
             <option value="scroll" className="bg-gray-800 text-white">Scroll</option>
+            <option value="screenshot" className="bg-gray-800 text-white">Screenshot</option>
             <option value="select" className="bg-gray-800 text-white">Select</option>
             <option value="upload" className="bg-gray-800 text-white">Upload</option>
           </select>
@@ -117,14 +139,32 @@ export const StepConfigPanel: React.FC = () => {
           <input
             {...register('description')}
             className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
-            placeholder="Describe what this step does"
+            placeholder={currentStep.description || "Describe what this step does"}
           />
         </div>
+
+        {/* Value field for auth steps with type/input actions */}
+        {isAuthStep && (action === 'type' || action === 'input') && (
+          <div>
+            <label className="block mb-1 text-xs font-medium text-gray-400">
+              Value {currentStep.params.value?.includes('${') && <span className="text-amber-400">(Variable)</span>}
+            </label>
+            <input
+              {...register('params.value')}
+              className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-gray-500"
+              placeholder={currentStep.params.value || "Enter value or use ${VARIABLE_NAME}"}
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Use ${'{'}VARIABLE_NAME{'}'} for environment variables
+            </p>
+          </div>
+        )}
 
         {/* Action-specific configurations */}
         {action === 'navigate' && <NavigateConfig register={register} />}
         {action === 'click' && <ClickConfig register={register} watch={watch} />}
-        {action === 'input' && <InputConfig register={register} watch={watch} />}
+        {(action === 'input' || action === 'type') && <InputConfig register={register} watch={watch} />}
+        {action === 'submit' && <ClickConfig register={register} watch={watch} />}
         {action === 'wait' && <WaitConfig register={register} watch={watch} />}
         {action === 'extract' && <ExtractConfig register={register} watch={watch} />}
         {action === 'scroll' && <ScrollConfig register={register} />}

@@ -35,7 +35,10 @@ export function JsonEditor() {
             const parsed = JSON.parse(value);
 
             // Validate basic structure
-            if (!parsed.flowId || !parsed.steps || !Array.isArray(parsed.steps)) {
+            const hasSteps = parsed.steps && Array.isArray(parsed.steps);
+            const hasActions = parsed.actions && Array.isArray(parsed.actions);
+            
+            if (!parsed.flowId || (!hasSteps && !hasActions)) {
                 setError('Invalid flow structure');
                 return;
             }
@@ -67,7 +70,10 @@ export function JsonEditor() {
                     const content = event.target?.result as string;
                     const parsed = JSON.parse(content);
 
-                    if (!parsed.flowId || !parsed.steps || !Array.isArray(parsed.steps)) {
+                    const hasSteps = parsed.steps && Array.isArray(parsed.steps);
+                    const hasActions = parsed.actions && Array.isArray(parsed.actions);
+                    
+                    if (!parsed.flowId || (!hasSteps && !hasActions)) {
                         setError('Invalid flow file structure');
                         return;
                     }

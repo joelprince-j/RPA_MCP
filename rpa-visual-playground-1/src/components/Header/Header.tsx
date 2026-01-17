@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useFlowStore } from '../../store/flowStore'
 import { exportFlowToJSON, importFlowFromJSON, exportFlowToPython } from '../../services/flowExporter'
-import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw, FileJson } from 'lucide-react'
+import { Play, Download, Upload, FileCode, Eye, EyeOff, Settings, RefreshCw, FileJson, Database } from 'lucide-react'
 import { flowApi, executionApi } from '../../services/api';
 
 export default function Header() {
-  const { 
-    flow, 
-    steps, 
-    exportFlow, 
-    setFlow, 
-    setPreviewOpen, 
-    isPreviewOpen, 
-    isExecuting, 
+  const {
+    flow,
+    steps,
+    exportFlow,
+    setFlow,
+    setPreviewOpen,
+    isPreviewOpen,
+    isExecuting,
     setExecuting,
     isExtractingPage,
     setExtractingPage,
@@ -20,6 +20,16 @@ export default function Header() {
     setJsonEditorOpen,
   } = useFlowStore()
   const [showSettings, setShowSettings] = useState(false)
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    // Apply theme to document
+    document.documentElement.classList.toggle('light-theme', newTheme === 'light')
+    // Dispatch event for other components
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme: newTheme } }))
+  }
 
   const handleExportJSON = () => {
     const flowData = exportFlow()
@@ -149,7 +159,7 @@ export default function Header() {
         const lastTransition = report.pageTransitions[report.pageTransitions.length - 1];
         const { setPendingPageTransition } = useFlowStore.getState();
         setPendingPageTransition(lastTransition);
-        
+
         // Also merge current page if available (for final state)
         if (report.currentPage) {
           mergePageIntoSiteMap(report.currentPage);
@@ -252,10 +262,10 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
     <header className="text-white bg-[#1a1d29] border-b border-gray-800 shadow-sm">
       <div className="flex items-center justify-between px-6 py-3">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold text-white">RPA Flow Builder</h1>
+          <h1 className="text-xl font-semibold text-white">RPA</h1>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="px-2.5 py-1 bg-gray-800/50 rounded-md border border-gray-700/50">
-              {steps.length} {steps.length === 1 ? 'step' : 'steps'}
+              Flow Builder & Play Ground
             </span>
           </div>
         </div>
@@ -274,6 +284,18 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
           >
             <FileJson size={14} />
             <span className="hidden sm:inline text-xs">JSON</span>
+          </button>
+          <button
+            onClick={() => {
+              // Toggle output config panel
+              const event = new CustomEvent('toggleOutputConfig');
+              window.dispatchEvent(event);
+            }}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm transition-colors bg-orange-600/80 rounded-md hover:bg-orange-600 border border-orange-500/30"
+            title="Configure Outputs"
+          >
+            <Database size={14} />
+            <span className="hidden sm:inline text-xs">Outputs</span>
           </button>
           {/* <label className="flex items-center gap-2 px-3 py-2 transition-colors bg-gray-700 rounded cursor-pointer hover:bg-gray-600">
             <Upload size={16} />
@@ -302,47 +324,14 @@ ${Object.keys(report.extractedData).length > 0 ? `\nExtracted Data:\n${JSON.stri
               </button>
             </div>
           </div>
-          <button
+          {/* <button
             onClick={() => setShowSettings(!showSettings)}
             className="flex items-center gap-2 px-3 py-1.5 text-sm transition-colors bg-gray-800/50 rounded-md hover:bg-gray-700/50 border border-gray-700/50"
           >
             <Settings size={14} />
-          </button>
+          </button> */}
         </div>
       </div>
-      {showSettings && (
-        <div className="px-6 py-4 bg-gray-800/30 border-t border-gray-800">
-          <h3 className="mb-3 text-xs font-semibold text-gray-300 uppercase tracking-wide">Flow Settings</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-1.5 text-xs text-gray-400">Flow Name</label>
-              <input
-                type="text"
-                value={flow?.name || ''}
-                onChange={(e) => {
-                  const currentFlow = exportFlow()
-                  setFlow({ ...currentFlow, name: e.target.value })
-                }}
-                className="w-full px-3 py-1.5 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Enter flow name"
-              />
-            </div>
-            <div>
-              <label className="block mb-1.5 text-xs text-gray-400">Start URL</label>
-              <input
-                type="url"
-                value={flow?.startUrl || ''}
-                onChange={(e) => {
-                  const currentFlow = exportFlow()
-                  setFlow({ ...currentFlow, startUrl: e.target.value })
-                }}
-                className="w-full px-3 py-1.5 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="https://example.com"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   )
 }

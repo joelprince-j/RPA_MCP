@@ -81,7 +81,7 @@
 //       {/* Toolbar */}
 //       <div className="flex items-center justify-between p-3 bg-white border-b shadow-sm">
 //         <h2 className="text-lg font-semibold text-gray-700">Flow Canvas</h2>
-        
+
 //         <div className="flex gap-2">
 //           <button
 //             onClick={handleAddStep}
@@ -90,7 +90,7 @@
 //             <Plus size={16} />
 //             Add Step
 //           </button>
-          
+
 //           {selectedStepId !== null && (
 //             <button
 //               onClick={handleDeleteSelected}
@@ -201,12 +201,15 @@ const nodeTypes = {
 };
 
 export const FlowBuilder: React.FC = () => {
-  const { 
-    steps, 
-    addStep, 
-    setSelectedStepId, 
-    removeStep, 
+  const {
+    steps,
+    authSteps,
+    flow,
+    addStep,
+    setSelectedStepId,
+    removeStep,
     selectedStepId,
+    selectedStepIsAuth,
     duplicateStep,
     insertStepBefore,
     insertStepAfter,
@@ -315,58 +318,474 @@ export const FlowBuilder: React.FC = () => {
     const newNodes: Node[] = [];
     const nodeWidth = 300;
     const nodeHeight = 120;
+    const horizontalSpacing = 350;
+    const verticalSpacing = 300; // Increased gap between rows from 250 to 300
+    const itemsPerRow = 7;
+    const startX = 50;
+    const startY = 50;
 
-    steps.forEach((step, index) => {
-      const nodeId = `step-${step.stepId}`;
-      // Use stored position if available, otherwise calculate default with more spacing
-      const desiredPosition = nodePositionsRef.current[nodeId] || { 
-        x: 250, 
-        y: index * 200 + 50  // Increased spacing from 180 to 200
+    let currentIndex = 0;
+
+    // Get outputs early for section header logic
+    const outputs = flow?.return?.outputs || [];
+
+    // Add "Auth" section header if there are auth steps
+    if (authSteps.length > 0) {
+      const nodeId = 'section-auth';
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: {
+          x: startX + col * horizontalSpacing,
+          y: startY + row * verticalSpacing
+        },
+        data: {
+          step: {
+            stepId: 0,
+            action: 'section-header',
+            actionType: 'section-header',
+            params: {},
+            description: 'AUTH',
+          },
+          isSectionHeader: true,
+          sectionType: 'auth',
+        },
+        selected: false,
+        draggable: false,
+        selectable: false,
+        connectable: true,
+      });
+
+      currentIndex++;
+    }
+
+    // Add auth steps in grid layout
+    authSteps.forEach((step, index) => {
+      const nodeId = `auth-${step.stepId}`;
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      const desiredPosition = nodePositionsRef.current[nodeId] || {
+        x: startX + col * horizontalSpacing,
+        y: startY + row * verticalSpacing
       };
-      
-      // Check for collisions with already placed nodes
+
       const finalPosition = findNonCollidingPosition(desiredPosition, newNodes, nodeWidth, nodeHeight);
-      
-      // Update stored position if it was adjusted
+
       if (finalPosition.x !== desiredPosition.x || finalPosition.y !== desiredPosition.y) {
         nodePositionsRef.current[nodeId] = finalPosition;
       }
-      
+
       newNodes.push({
         id: nodeId,
         type: 'step',
         position: finalPosition,
-        data: { 
+        data: {
+          step: { ...step, description: step.description },
+          isSwapMode: false,
+          isAuthStep: true,
+        },
+        selected: selectedStepId === step.stepId && selectedStepIsAuth,
+        draggable: true,
+        className: 'auth-step-node',
+      });
+
+      currentIndex++;
+    });
+
+    // Add "Action" section header if there are action steps
+    if (steps.length > 0) {
+      const nodeId = 'section-action';
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: {
+          x: startX + col * horizontalSpacing,
+          y: startY + row * verticalSpacing
+        },
+        data: {
+          step: {
+            stepId: 0,
+            action: 'section-header',
+            actionType: 'section-header',
+            params: {},
+            description: 'ACTIONS',
+          },
+          isSectionHeader: true,
+          sectionType: 'action',
+        },
+        selected: false,
+        draggable: false,
+        selectable: false,
+        connectable: true,
+      });
+
+      currentIndex++;
+    }
+
+    // Add regular action steps continuing in grid layout
+    steps.forEach((step, index) => {
+      const nodeId = `step-${step.stepId}`;
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      const desiredPosition = nodePositionsRef.current[nodeId] || {
+        x: startX + col * horizontalSpacing,
+        y: startY + row * verticalSpacing
+      };
+
+      const finalPosition = findNonCollidingPosition(desiredPosition, newNodes, nodeWidth, nodeHeight);
+
+      if (finalPosition.x !== desiredPosition.x || finalPosition.y !== desiredPosition.y) {
+        nodePositionsRef.current[nodeId] = finalPosition;
+      }
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: finalPosition,
+        data: {
           step,
           isSwapMode: swapModeStepId === step.stepId,
+          isAuthStep: false,
         },
-        selected: selectedStepId === step.stepId,
+        selected: selectedStepId === step.stepId && !selectedStepIsAuth,
         draggable: true,
         className: swapModeStepId === step.stepId ? 'swap-mode-node' : '',
       });
+
+      currentIndex++;
     });
 
-    const newEdges: Edge[] = steps.slice(0, -1).map((step, index) => ({
-      id: `edge-${step.stepId}`,
-      source: `step-${step.stepId}`,
-      target: `step-${steps[index + 1].stepId}`,
-      animated: true,
-      type: 'smoothstep',
-      style: { stroke: '#3b82f6', strokeWidth: 2 },
-      markerEnd: {
-        type: 'arrowclosed',
-        color: '#3b82f6',
-      },
-    }));
+    // Add "Output" section header if there are outputs
+    if (outputs.length > 0) {
+      const nodeId = 'section-output';
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: {
+          x: startX + col * horizontalSpacing,
+          y: startY + row * verticalSpacing
+        },
+        data: {
+          step: {
+            stepId: 0,
+            action: 'section-header',
+            actionType: 'section-header',
+            params: {},
+            description: 'OUTPUTS',
+          },
+          isSectionHeader: true,
+          sectionType: 'output',
+        },
+        selected: false,
+        draggable: false,
+        selectable: false,
+        connectable: true,
+      });
+
+      currentIndex++;
+    }
+
+    // Add output nodes after action steps
+    outputs.forEach((output, index) => {
+      const nodeId = `output-${index}`;
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      const desiredPosition = nodePositionsRef.current[nodeId] || {
+        x: startX + col * horizontalSpacing,
+        y: startY + row * verticalSpacing
+      };
+
+      const finalPosition = findNonCollidingPosition(desiredPosition, newNodes, nodeWidth, nodeHeight);
+
+      if (finalPosition.x !== desiredPosition.x || finalPosition.y !== desiredPosition.y) {
+        nodePositionsRef.current[nodeId] = finalPosition;
+      }
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: finalPosition,
+        data: {
+          step: {
+            stepId: index + 1,
+            action: output.type,
+            actionType: output.type,
+            params: {
+              bucket: output.bucket,
+              region: output.region,
+              path: output.path,
+              ...output,
+            },
+            description: `Output to ${output.type.toUpperCase()}${output.bucket ? `: ${output.bucket}` : ''}`,
+          },
+          isSwapMode: false,
+          isAuthStep: false,
+          isOutputNode: true,
+          outputIndex: index,
+        },
+        selected: false,
+        draggable: true,
+        className: 'output-node',
+      });
+
+      currentIndex++;
+    });
+
+    // Add "Add Output" button node
+    if (steps.length > 0) {
+      const nodeId = 'add-output-btn';
+      const row = Math.floor(currentIndex / itemsPerRow);
+      const col = currentIndex % itemsPerRow;
+
+      const desiredPosition = nodePositionsRef.current[nodeId] || {
+        x: startX + col * horizontalSpacing,
+        y: startY + row * verticalSpacing
+      };
+
+      const finalPosition = findNonCollidingPosition(desiredPosition, newNodes, nodeWidth, nodeHeight);
+
+      if (finalPosition.x !== desiredPosition.x || finalPosition.y !== desiredPosition.y) {
+        nodePositionsRef.current[nodeId] = finalPosition;
+      }
+
+      newNodes.push({
+        id: nodeId,
+        type: 'step',
+        position: finalPosition,
+        data: {
+          step: {
+            stepId: 0,
+            action: 'add-output',
+            actionType: 'add-output',
+            params: {},
+            description: 'Click to add output',
+          },
+          isSwapMode: false,
+          isAuthStep: false,
+          isOutputNode: false,
+          isAddOutputButton: true,
+        },
+        selected: false,
+        draggable: false,
+        className: 'add-output-btn-node',
+      });
+    }
+
+    // Create edges - connect in sequence
+    const newEdges: Edge[] = [];
+
+    // Connect AUTH section header to first auth step
+    if (authSteps.length > 0) {
+      newEdges.push({
+        id: 'section-auth-to-first',
+        source: 'section-auth',
+        target: `auth-${authSteps[0].stepId}`,
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#f59e0b',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#f59e0b',
+          width: 20,
+          height: 20,
+        },
+      });
+    }
+
+    // Connect auth steps to each other
+    authSteps.slice(0, -1).forEach((step, index) => {
+      newEdges.push({
+        id: `auth-edge-${step.stepId}`,
+        source: `auth-${step.stepId}`,
+        target: `auth-${authSteps[index + 1].stepId}`,
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#f59e0b',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#f59e0b',
+          width: 20,
+          height: 20,
+        },
+      });
+    });
+
+    // Connect last auth step to ACTION section header (or first action if no header)
+    if (authSteps.length > 0 && steps.length > 0) {
+      newEdges.push({
+        id: 'auth-to-action-section',
+        source: `auth-${authSteps[authSteps.length - 1].stepId}`,
+        target: 'section-action',
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#f59e0b', // Orange to match auth color
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#f59e0b',
+          width: 20,
+          height: 20,
+        },
+      });
+    }
+
+    // Connect ACTION section header to first action step
+    if (steps.length > 0) {
+      newEdges.push({
+        id: 'section-action-to-first',
+        source: 'section-action',
+        target: `step-${steps[0].stepId}`,
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#3b82f6',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#3b82f6',
+          width: 20,
+          height: 20,
+        },
+      });
+    }
+
+    // Connect action steps to each other
+    steps.slice(0, -1).forEach((step, index) => {
+      newEdges.push({
+        id: `action-edge-${step.stepId}`,
+        source: `step-${step.stepId}`,
+        target: `step-${steps[index + 1].stepId}`,
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#3b82f6',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#3b82f6',
+          width: 20,
+          height: 20,
+        },
+      });
+    });
+
+    // Connect last action step to OUTPUT section header (if outputs exist)
+    if (steps.length > 0 && outputs.length > 0) {
+      const lastStep = steps[steps.length - 1];
+      newEdges.push({
+        id: 'action-to-output-section',
+        source: `step-${lastStep.stepId}`,
+        target: 'section-output',
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#8b5cf6',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#8b5cf6',
+          width: 20,
+          height: 20,
+        },
+      });
+
+      // Connect OUTPUT section header to first output
+      newEdges.push({
+        id: 'section-output-to-first',
+        source: 'section-output',
+        target: 'output-0',
+        animated: true,
+        type: 'smoothstep',
+        style: {
+          stroke: '#8b5cf6',
+          strokeWidth: 3,
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#8b5cf6',
+          width: 20,
+          height: 20,
+        },
+      });
+
+      // Connect output nodes to each other
+      outputs.slice(0, -1).forEach((output, index) => {
+        newEdges.push({
+          id: `output-edge-${index}`,
+          source: `output-${index}`,
+          target: `output-${index + 1}`,
+          animated: true,
+          type: 'smoothstep',
+          style: {
+            stroke: '#8b5cf6',
+            strokeWidth: 3,
+          },
+          markerEnd: {
+            type: 'arrowclosed',
+            color: '#8b5cf6',
+            width: 20,
+            height: 20,
+          },
+        });
+      });
+    }
+
+    // Connect last output (or last action) to "Add Output" button
+    if (steps.length > 0) {
+      const lastStep = steps[steps.length - 1];
+      const sourceId = outputs.length > 0 ? `output-${outputs.length - 1}` : `step-${lastStep.stepId}`;
+
+      newEdges.push({
+        id: 'to-add-output-btn',
+        source: sourceId,
+        target: 'add-output-btn',
+        animated: false,
+        type: 'smoothstep',
+        style: {
+          stroke: '#6b7280',
+          strokeWidth: 2,
+          strokeDasharray: '5,5',
+        },
+        markerEnd: {
+          type: 'arrowclosed',
+          color: '#6b7280',
+          width: 15,
+          height: 15,
+        },
+      });
+    }
 
     setNodes(newNodes);
     setEdges(newEdges);
-  }, [steps, selectedStepId, setNodes, setEdges]);
+  }, [steps, authSteps, selectedStepId, selectedStepIsAuth, swapModeStepId, flow, setNodes, setEdges]);
 
   // Custom onNodesChange to save positions
   const handleNodesChange = useCallback((changes: any) => {
     onNodesChange(changes);
-    
+
     // Save positions when nodes are dragged
     changes.forEach((change: any) => {
       if (change.type === 'position' && change.position) {
@@ -381,26 +800,60 @@ export const FlowBuilder: React.FC = () => {
   );
 
   const handleNodeClick = (_event: React.MouseEvent, node: Node) => {
-    const stepId = parseInt(node.id.replace('step-', ''));
-    
+    // Handle both auth- and step- prefixes
+    const isAuthNode = node.id.startsWith('auth-');
+    const isOutputNode = node.id.startsWith('output-');
+    const isAddOutputBtn = node.id === 'add-output-btn';
+    const isSectionHeader = node.id.startsWith('section-');
+
+    // Ignore clicks on section headers
+    if (isSectionHeader) {
+      return;
+    }
+
+    if (isAddOutputBtn) {
+      // Open output config panel
+      const event = new CustomEvent('toggleOutputConfig');
+      window.dispatchEvent(event);
+      return;
+    }
+
+    if (isOutputNode) {
+      // Open output config panel and select this output
+      const outputIndex = parseInt(node.id.replace('output-', ''));
+      console.log('Output node clicked:', outputIndex);
+      const event = new CustomEvent('selectOutput', { detail: { outputIndex } });
+      window.dispatchEvent(event);
+      return;
+    }
+
+    // Regular step clicked - open step config panel
+    const stepId = parseInt(node.id.replace('auth-', '').replace('step-', ''));
+
     // If in swap mode, swap with the clicked step
     if (swapModeStepId !== null && swapModeStepId !== stepId) {
       swapSteps(swapModeStepId, stepId);
       return;
     }
-    
-    setSelectedStepId(stepId);
+
+    setSelectedStepId(stepId, isAuthNode);
+
+    // Open step config panel and close output panel
+    const event = new CustomEvent('openStepConfig');
+    window.dispatchEvent(event);
   };
 
   const handleNodeContextMenu = (event: React.MouseEvent, node: Node) => {
     event.preventDefault();
-    const stepId = parseInt(node.id.replace('step-', ''));
+    // Handle both auth- and step- prefixes
+    const isAuthNode = node.id.startsWith('auth-');
+    const stepId = parseInt(node.id.replace('auth-', '').replace('step-', ''));
     setContextMenu({
       x: event.clientX,
       y: event.clientY,
       stepId,
     });
-    setSelectedStepId(stepId);
+    setSelectedStepId(stepId, isAuthNode);
   };
 
   const handleAddStep = () => {
@@ -445,25 +898,23 @@ export const FlowBuilder: React.FC = () => {
       {/* Toolbar */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-[#1a1d29] border-b border-gray-800/50">
         <h2 className="text-sm font-medium text-gray-300">Flow Canvas</h2>
-        
+
         <div className="flex gap-2">
           <button
             onClick={handleAddStep}
             className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-sm"
           >
             <Plus size={16} />
-            Add Step
+            Save Flow
           </button>
-          
-          {selectedStepId !== null && (
+
             <button
               onClick={handleDeleteSelected}
-              className="flex items-center gap-2 px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 bg-[#2d2d2d] text-[#d4a574] border border-[#d4a574]/30 rounded-lg hover:bg-[#d4a574] hover:text-[#1a1a1a] hover:border-[#d4a574] transition-all text-sm shadow-sm"
             >
               <Trash2 size={16} />
               Delete
             </button>
-          )}
         </div>
       </div>
 
@@ -498,7 +949,13 @@ export const FlowBuilder: React.FC = () => {
             onConnect={onConnect}
             onNodeClick={handleNodeClick}
             onNodeContextMenu={handleNodeContextMenu}
-            onPaneClick={() => setContextMenu(null)}
+            onPaneClick={() => {
+              setContextMenu(null);
+              setSelectedStepId(null);
+              // Close both config panels when clicking empty canvas
+              const event = new CustomEvent('closeAllPanels');
+              window.dispatchEvent(event);
+            }}
             nodeTypes={nodeTypes}
             nodesDraggable={true}
             nodesConnectable={true}
@@ -510,14 +967,15 @@ export const FlowBuilder: React.FC = () => {
             maxZoom={2}
             defaultEdgeOptions={{
               animated: true,
-              type: 'smoothstep',
-              style: { stroke: '#3b82f6', strokeWidth: 2 },
+              type: 'default',
+              style: { stroke: '#3b82f6', strokeWidth: 3 },
               markerEnd: {
                 type: 'arrowclosed',
                 color: '#3b82f6',
+                width: 20,
+                height: 20,
               },
             }}
-            connectionLineType="smoothstep"
           >
             <Controls />
             <MiniMap
@@ -527,9 +985,9 @@ export const FlowBuilder: React.FC = () => {
               }}
               maskColor="rgba(0, 0, 0, 0.4)"
             />
-            <Background 
-              variant={BackgroundVariant.Dots} 
-              gap={20} 
+            <Background
+              variant={BackgroundVariant.Dots}
+              gap={20}
               size={1}
               color="#374151"
             />

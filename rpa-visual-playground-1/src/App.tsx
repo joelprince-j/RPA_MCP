@@ -1,43 +1,8 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-
-// function App() {
-//   const [count, setCount] = useState(0)
-
-//   return (
-//     <>
-//       <div>
-//         <a href="https://vite.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
-
-// export default App
-
 import React from 'react';
 import Header from './components/Header/Header';
 import { FlowBuilder } from './components/FlowBuilder/FlowBuilder';
 import { StepConfigPanel } from './components/StepConfigPanel/StepConfigPanel';
+import { OutputConfigPanel } from './components/OutputConfig/OutputConfigPanel';
 import { FlowPreview } from './components/FlowPreview/FlowPreview';
 import { PageTransitionModal } from './components/PageTransitionModal/PageTransitionModal';
 import { JsonEditor } from './components/JsonEditor/JsonEditor';
@@ -45,7 +10,48 @@ import { useFlowStore } from './store/flowStore';
 
 function App() {
   const { isSiteMapOpen, setSiteMapOpen, selectedStepId } = useFlowStore();
-  const [isConfigPanelOpen, setIsConfigPanelOpen] = React.useState(true);
+  const [isConfigPanelOpen, setIsConfigPanelOpen] = React.useState(false); // Closed by default
+  const [isOutputPanelOpen, setIsOutputPanelOpen] = React.useState(false);
+
+  // Listen for output config toggle and select events
+  React.useEffect(() => {
+    const handleToggle = () => {
+      setIsOutputPanelOpen(prev => !prev);
+      if (!isOutputPanelOpen) {
+        setIsConfigPanelOpen(false); // Close step config when opening output
+      }
+    };
+    
+    const handleSelect = () => {
+      // Always open output panel when selecting an output
+      setIsOutputPanelOpen(true);
+      setIsConfigPanelOpen(false);
+    };
+    
+    const handleOpenStepConfig = () => {
+      // Open step config panel and close output panel
+      setIsConfigPanelOpen(true);
+      setIsOutputPanelOpen(false);
+    };
+    
+    const handleCloseAll = () => {
+      // Close both panels when clicking empty canvas
+      setIsOutputPanelOpen(false);
+      setIsConfigPanelOpen(false);
+    };
+    
+    window.addEventListener('toggleOutputConfig', handleToggle);
+    window.addEventListener('selectOutput', handleSelect);
+    window.addEventListener('openStepConfig', handleOpenStepConfig);
+    window.addEventListener('closeAllPanels', handleCloseAll);
+    
+    return () => {
+      window.removeEventListener('toggleOutputConfig', handleToggle);
+      window.removeEventListener('selectOutput', handleSelect);
+      window.removeEventListener('openStepConfig', handleOpenStepConfig);
+      window.removeEventListener('closeAllPanels', handleCloseAll);
+    };
+  }, [isOutputPanelOpen]);
 
   return (
     <div className="flex flex-col h-screen bg-[#1a1d29]">
@@ -57,38 +63,21 @@ function App() {
           <FlowBuilder />
         </div>
 
-        {/* Right Sidebar - Step Config (Collapsible) */}
-        {isConfigPanelOpen && (
+        {/* Right Sidebar - Step Config or Output Config (Collapsible) */}
+        {isConfigPanelOpen && !isOutputPanelOpen && (
           <div className="flex-shrink-0 bg-[#1a1d29] border-l border-gray-800/50 w-96 shadow-xl">
             <StepConfigPanel />
           </div>
         )}
 
-        {/* Toggle Config Panel Button */}
-        {!isConfigPanelOpen && (
-          <button
-            onClick={() => setIsConfigPanelOpen(true)}
-            className="absolute right-0 z-10 p-2 transform -translate-y-1/2 bg-white border border-r-0 rounded-l-lg shadow-lg top-1/2 hover:bg-gray-50 transition-all"
-            aria-label="Show Configuration Panel"
-            title="Show Configuration Panel"
-          >
-            <svg
-              className="w-5 h-5 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <span className="sr-only">Show Configuration Panel</span>
-          </button>
+        {/* Right Sidebar - Output Config */}
+        {isOutputPanelOpen && (
+          <div className="flex-shrink-0 bg-[#1a1d29] border-l border-gray-800/50 w-96 shadow-xl">
+            <OutputConfigPanel />
+          </div>
         )}
+
+        {/* Toggle Config Panel Button - Hidden, panels open on click */}
       </div>
 
       {/* Flow Preview Overlay */}
