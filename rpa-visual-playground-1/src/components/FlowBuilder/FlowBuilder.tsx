@@ -195,6 +195,7 @@ import { useFlowStore } from '../../store/flowStore';
 import { StepNode } from './StepNode';
 import { NodeContextMenu } from '../ContextMenu/NodeContextMenu';
 import { Plus, Trash2, Replace } from 'lucide-react';
+import { flowApi } from '../../services/api';
 
 const nodeTypes = {
   step: StepNode,
@@ -208,6 +209,7 @@ export const FlowBuilder: React.FC = () => {
     addStep,
     setSelectedStepId,
     removeStep,
+    removeAuthStep,
     selectedStepId,
     selectedStepIsAuth,
     duplicateStep,
@@ -220,6 +222,7 @@ export const FlowBuilder: React.FC = () => {
     redo,
     canUndo,
     canRedo,
+    exportFlow,
   } = useFlowStore();
 
   // Store node positions to preserve them across updates
@@ -363,7 +366,7 @@ export const FlowBuilder: React.FC = () => {
     }
 
     // Add auth steps in grid layout
-    authSteps.forEach((step, index) => {
+    authSteps.forEach((step) => {
       const nodeId = `auth-${step.stepId}`;
       const row = Math.floor(currentIndex / itemsPerRow);
       const col = currentIndex % itemsPerRow;
@@ -430,7 +433,7 @@ export const FlowBuilder: React.FC = () => {
     }
 
     // Add regular action steps continuing in grid layout
-    steps.forEach((step, index) => {
+    steps.forEach((step) => {
       const nodeId = `step-${step.stepId}`;
       const row = Math.floor(currentIndex / itemsPerRow);
       const col = currentIndex % itemsPerRow;
@@ -732,7 +735,7 @@ export const FlowBuilder: React.FC = () => {
       });
 
       // Connect output nodes to each other
-      outputs.slice(0, -1).forEach((output, index) => {
+      outputs.slice(0, -1).forEach((_, index) => {
         newEdges.push({
           id: `output-edge-${index}`,
           source: `output-${index}`,
@@ -860,10 +863,51 @@ export const FlowBuilder: React.FC = () => {
     addStep();
   };
 
+  const [isSavingFlow, setIsSavingFlow] = useState(false);
+  const handleSaveFlow = async () => {
+    if (isSavingFlow) return;
+    setIsSavingFlow(true);
+    try {
+      const flowData = exportFlow();
+      // Always persist locally so "Save Flow" works without backend.
+      try {
+        const keyById = `rpa:flows:${flowData.flowId}`;
+        localStorage.setItem(keyById, JSON.stringify(flowData));
+        localStorage.setItem('rpa:flows:last', flowData.flowId);
+        localStorage.setItem('rpa:flows:lastSavedAt', new Date().toISOString());
+      } catch {
+        // Ignore localStorage failures (quota, private mode, etc.)
+      }
+
+      // Try backend save too (optional). If backend isn't running, we still succeed locally.
+      try {
+        await flowApi.saveFlow(flowData);
+        alert('Flow saved successfully!');
+      } catch (backendError: any) {
+        const isNetworkError =
+          backendError?.message?.toLowerCase?.().includes('network') ||
+          backendError?.code === 'ERR_NETWORK';
+        alert(
+          isNetworkError
+            ? 'Flow saved '
+            : 'Flow saved '
+        );
+      }
+    } catch (error: any) {
+      alert('Failed to save flow: ' + (error?.message || 'Unknown error'));
+    } finally {
+      setIsSavingFlow(false);
+    }
+  };
+
   const handleDeleteSelected = () => {
     if (selectedStepId !== null) {
       if (confirm('Are you sure you want to delete this step?')) {
-        removeStep(selectedStepId);
+        if (selectedStepIsAuth) {
+          removeAuthStep(selectedStepId);
+        } else {
+          removeStep(selectedStepId);
+        }
       }
     }
   };
@@ -901,11 +945,12 @@ export const FlowBuilder: React.FC = () => {
 
         <div className="flex gap-2">
           <button
-            onClick={handleAddStep}
-            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-sm"
+            onClick={handleSaveFlow}
+            disabled={isSavingFlow}
+            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus size={16} />
-            Save Flow
+            {isSavingFlow ? 'Saving…' : 'Save Flow'}
           </button>
 
             <button

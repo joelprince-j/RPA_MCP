@@ -9,9 +9,16 @@ import { JsonEditor } from './components/JsonEditor/JsonEditor';
 import { useFlowStore } from './store/flowStore';
 
 function App() {
-  const { isSiteMapOpen, setSiteMapOpen, selectedStepId } = useFlowStore();
+  const { selectedStepId } = useFlowStore();
   const [isConfigPanelOpen, setIsConfigPanelOpen] = React.useState(false); // Closed by default
   const [isOutputPanelOpen, setIsOutputPanelOpen] = React.useState(false);
+
+  // If selection is cleared (e.g., user closed panel or deleted step), collapse the config panel
+  React.useEffect(() => {
+    if (selectedStepId === null) {
+      setIsConfigPanelOpen(false);
+    }
+  }, [selectedStepId]);
 
   // Listen for output config toggle and select events
   React.useEffect(() => {

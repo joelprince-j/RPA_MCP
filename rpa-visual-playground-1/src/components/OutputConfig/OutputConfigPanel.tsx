@@ -9,6 +9,7 @@ export const OutputConfigPanel: React.FC = () => {
 
     const outputs = flow?.return?.outputs || [];
     const selectedOutput = selectedOutputIndex !== null ? outputs[selectedOutputIndex] : null;
+    const isSupportedOutputType = (type: string) => type === 's3';
 
     // Listen for output selection from canvas
     React.useEffect(() => {
@@ -21,6 +22,8 @@ export const OutputConfigPanel: React.FC = () => {
     }, []);
 
     const addOutput = (type: 's3' | 'local' | 'database' | 'email' | 'slack' | 'outlook') => {
+        // Only S3 outputs are currently supported/allowed to be added from UI
+        if (type !== 's3') return;
         const newOutput: ReturnOutput = {
             type: type as any,
             enabled: true,
@@ -104,6 +107,10 @@ export const OutputConfigPanel: React.FC = () => {
             {/* Output List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {outputs.map((output, index) => (
+                    (() => {
+                        const isSupported = isSupportedOutputType(output.type);
+                        const isDisabled = !isSupported || !output.enabled;
+                        return (
                     <div
                         key={index}
                         onClick={() => setSelectedOutputIndex(index)}
@@ -118,7 +125,7 @@ export const OutputConfigPanel: React.FC = () => {
                                 <span className="text-sm font-medium text-gray-200 capitalize">
                                     {output.type}
                                 </span>
-                                {!output.enabled && (
+                                {isDisabled && (
                                     <span className="text-xs px-2 py-0.5 bg-gray-700 text-gray-400 rounded">
                                         Disabled
                                     </span>
@@ -129,6 +136,8 @@ export const OutputConfigPanel: React.FC = () => {
                                     e.stopPropagation();
                                     deleteOutput(index);
                                 }}
+                                title="Delete output"
+                                aria-label="Delete output"
                                 className="p-1 hover:bg-red-500/20 rounded transition-colors"
                             >
                                 <Trash2 size={14} className="text-red-400" />
@@ -138,6 +147,8 @@ export const OutputConfigPanel: React.FC = () => {
                             <p className="text-xs text-gray-400 mt-1 truncate">{output.bucket}</p>
                         )}
                     </div>
+                        );
+                    })()
                 ))}
 
                 {/* Add Output Buttons */}
@@ -152,36 +163,46 @@ export const OutputConfigPanel: React.FC = () => {
                             S3
                         </button>
                         <button
+                            disabled
                             onClick={() => addOutput('email')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:border-blue-500/50 hover:bg-blue-500/10 transition-all"
+                            title="Disabled (only S3 is supported right now)"
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-gray-800/20 border border-gray-700/30 rounded-lg opacity-60 cursor-not-allowed"
                         >
                             <Mail size={16} className="text-blue-400" />
                             Email
                         </button>
                         <button
+                            disabled
                             onClick={() => addOutput('slack')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:border-pink-500/50 hover:bg-pink-500/10 transition-all"
+                            title="Disabled (only S3 is supported right now)"
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-gray-800/20 border border-gray-700/30 rounded-lg opacity-60 cursor-not-allowed"
                         >
                             <MessageSquare size={16} className="text-pink-400" />
                             Slack
                         </button>
                         <button
+                            disabled
                             onClick={() => addOutput('outlook')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all"
+                            title="Disabled (only S3 is supported right now)"
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-gray-800/20 border border-gray-700/30 rounded-lg opacity-60 cursor-not-allowed"
                         >
                             <Send size={16} className="text-cyan-400" />
                             Outlook
                         </button>
                         <button
+                            disabled
                             onClick={() => addOutput('database')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:border-purple-500/50 hover:bg-purple-500/10 transition-all"
+                            title="Disabled (only S3 is supported right now)"
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-gray-800/20 border border-gray-700/30 rounded-lg opacity-60 cursor-not-allowed"
                         >
                             <Database size={16} className="text-purple-400" />
                             Database
                         </button>
                         <button
+                            disabled
                             onClick={() => addOutput('local')}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-lg hover:border-green-500/50 hover:bg-green-500/10 transition-all"
+                            title="Disabled (only S3 is supported right now)"
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 bg-gray-800/20 border border-gray-700/30 rounded-lg opacity-60 cursor-not-allowed"
                         >
                             <HardDrive size={16} className="text-green-400" />
                             Local
@@ -197,182 +218,101 @@ export const OutputConfigPanel: React.FC = () => {
                         {selectedOutput.type.toUpperCase()} Configuration
                     </h4>
 
-                    {/* Enabled Toggle */}
-                    <div className="flex items-center justify-between">
-                        <label className="text-xs font-medium text-gray-400">Enabled</label>
-                        <input
-                            type="checkbox"
-                            checked={selectedOutput.enabled}
-                            onChange={(e) =>
-                                updateOutput(selectedOutputIndex!, { enabled: e.target.checked })
-                            }
-                            className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-                        />
-                    </div>
-
-                    {/* S3 Configuration */}
-                    {selectedOutput.type === 's3' && (
-                        <>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Bucket Name</label>
-                                <input
-                                    type="text"
-                                    value={selectedOutput.bucket || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { bucket: e.target.value })
-                                    }
-                                    placeholder="my-bucket-name"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Region</label>
-                                <input
-                                    type="text"
-                                    value={selectedOutput.region || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { region: e.target.value })
-                                    }
-                                    placeholder="us-east-1"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Path</label>
-                                <input
-                                    type="text"
-                                    value={selectedOutput.path || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { path: e.target.value })
-                                    }
-                                    placeholder="data/${'{'}date{'}'}/results.json"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    {/* Local Configuration */}
-                    {selectedOutput.type === 'local' && (
-                        <div>
-                            <label className="block mb-1 text-xs font-medium text-gray-400">File Path</label>
-                            <input
-                                type="text"
-                                value={selectedOutput.path || ''}
-                                onChange={(e) =>
-                                    updateOutput(selectedOutputIndex!, { path: e.target.value })
-                                }
-                                placeholder="./output/results.json"
-                                className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-500"
-                            />
+                    {!isSupportedOutputType(selectedOutput.type) && (
+                        <div className="p-3 rounded-md border border-gray-700/50 bg-gray-800/30 text-xs text-gray-400">
+                            Only <span className="font-semibold text-gray-200">S3</span> outputs are supported in the UI right now.
+                            You can keep this output (it will show on the canvas), but you can’t add/configure it here.
                         </div>
                     )}
 
-                    {/* Email Configuration */}
-                    {selectedOutput.type === 'email' && (
+                    {isSupportedOutputType(selectedOutput.type) && (
                         <>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">To Email</label>
+                            {/* Enabled Toggle */}
+                            <div className="flex items-center justify-between">
+                                <label
+                                    htmlFor={`output-enabled-${selectedOutputIndex ?? 'none'}`}
+                                    className="text-xs font-medium text-gray-400"
+                                >
+                                    Enabled
+                                </label>
                                 <input
-                                    type="email"
-                                    value={(selectedOutput as any).to || ''}
+                                    id={`output-enabled-${selectedOutputIndex ?? 'none'}`}
+                                    aria-label="Enabled"
+                                    type="checkbox"
+                                    checked={selectedOutput.enabled}
                                     onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { to: e.target.value } as any)
+                                        updateOutput(selectedOutputIndex!, { enabled: e.target.checked })
                                     }
-                                    placeholder="user@example.com"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
+                                    className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
                                 />
                             </div>
+
+                            {/* S3 Configuration */}
+                            {selectedOutput.type === 's3' && (
+                                <>
+                                    <div>
+                                        <label className="block mb-1 text-xs font-medium text-gray-400">Bucket Name</label>
+                                        <input
+                                            type="text"
+                                            value={selectedOutput.bucket || ''}
+                                            onChange={(e) =>
+                                                updateOutput(selectedOutputIndex!, { bucket: e.target.value })
+                                            }
+                                            placeholder="my-bucket-name"
+                                            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block mb-1 text-xs font-medium text-gray-400">Region</label>
+                                        <input
+                                            type="text"
+                                            value={selectedOutput.region || ''}
+                                            onChange={(e) =>
+                                                updateOutput(selectedOutputIndex!, { region: e.target.value })
+                                            }
+                                            placeholder="us-east-1"
+                                            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block mb-1 text-xs font-medium text-gray-400">Path</label>
+                                        <input
+                                            type="text"
+                                            value={selectedOutput.path || ''}
+                                            onChange={(e) =>
+                                                updateOutput(selectedOutputIndex!, { path: e.target.value })
+                                            }
+                                            placeholder="data/${'{'}date{'}'}/results.json"
+                                            className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder-gray-500"
+                                        />
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Format Selection */}
                             <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Subject</label>
-                                <input
-                                    type="text"
-                                    value={(selectedOutput as any).subject || ''}
+                                <label
+                                    htmlFor={`output-format-${selectedOutputIndex ?? 'none'}`}
+                                    className="block mb-1 text-xs font-medium text-gray-400"
+                                >
+                                    Format
+                                </label>
+                                <select
+                                    id={`output-format-${selectedOutputIndex ?? 'none'}`}
+                                    aria-label="Format"
+                                    value={selectedOutput.format || 'json'}
                                     onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { subject: e.target.value } as any)
+                                        updateOutput(selectedOutputIndex!, { format: e.target.value as any })
                                     }
-                                    placeholder="Flow Results"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                                />
+                                    className="w-full px-3 py-2 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="json">JSON</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="xml">XML</option>
+                                </select>
                             </div>
                         </>
                     )}
-
-                    {/* Slack Configuration */}
-                    {selectedOutput.type === 'slack' && (
-                        <>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Webhook URL</label>
-                                <input
-                                    type="text"
-                                    value={(selectedOutput as any).webhookUrl || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { webhookUrl: e.target.value } as any)
-                                    }
-                                    placeholder="${SLACK_WEBHOOK_URL}"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-gray-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Channel</label>
-                                <input
-                                    type="text"
-                                    value={(selectedOutput as any).channel || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { channel: e.target.value } as any)
-                                    }
-                                    placeholder="#general"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder-gray-500"
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    {/* Outlook Configuration */}
-                    {selectedOutput.type === 'outlook' && (
-                        <>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">To Email</label>
-                                <input
-                                    type="email"
-                                    value={(selectedOutput as any).to || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { to: e.target.value } as any)
-                                    }
-                                    placeholder="user@company.com"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 placeholder-gray-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-1 text-xs font-medium text-gray-400">Subject</label>
-                                <input
-                                    type="text"
-                                    value={(selectedOutput as any).subject || ''}
-                                    onChange={(e) =>
-                                        updateOutput(selectedOutputIndex!, { subject: e.target.value } as any)
-                                    }
-                                    placeholder="Flow Results"
-                                    className="w-full px-3 py-2 text-sm text-gray-200 bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 placeholder-gray-500"
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    {/* Format Selection */}
-                    <div>
-                        <label className="block mb-1 text-xs font-medium text-gray-400">Format</label>
-                        <select
-                            value={selectedOutput.format || 'json'}
-                            onChange={(e) =>
-                                updateOutput(selectedOutputIndex!, { format: e.target.value as any })
-                            }
-                            className="w-full px-3 py-2 text-sm text-white bg-gray-800/50 border border-gray-700/50 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="json">JSON</option>
-                            <option value="csv">CSV</option>
-                            <option value="xml">XML</option>
-                        </select>
-                    </div>
                 </div>
             )}
         </div>

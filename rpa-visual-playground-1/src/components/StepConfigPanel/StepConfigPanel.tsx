@@ -30,7 +30,7 @@ export const StepConfigPanel: React.FC = () => {
     : steps.find((s) => s.stepId === selectedStepId);
   const isAuthStep = selectedStepIsAuth;
 
-  const { register, handleSubmit, reset, watch, setValue } = useForm<FlowStep>({
+  const { register, handleSubmit, reset, watch } = useForm<FlowStep>({
     defaultValues: currentStep,
   });
 
@@ -40,29 +40,9 @@ export const StepConfigPanel: React.FC = () => {
     }
   }, [currentStep, reset]);
 
-  if (!currentStep) {
-    return (
-      <div className="flex items-center justify-center h-full p-8 bg-[#1a1d29]">
-        <div className="text-center max-w-xs">
-          <div className="mb-3 text-gray-600">
-            <svg
-              className="w-10 h-10 mx-auto"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // If the panel is mounted but nothing is selected, render nothing.
+  // The parent container should close via the `closeAllPanels` event.
+  if (!currentStep) return null;
 
   const onSubmit = (data: FlowStep) => {
     if (isAuthStep) {
@@ -101,7 +81,11 @@ export const StepConfigPanel: React.FC = () => {
             </button>
           )}
           <button
-            onClick={() => setSelectedStepId(null)}
+            onClick={() => {
+              setSelectedStepId(null);
+              // Close the sidebar (prevents the "empty right panel" gap)
+              window.dispatchEvent(new CustomEvent('closeAllPanels'));
+            }}
             className="p-1.5 hover:bg-gray-800/50 rounded transition-colors"
             title="Close"
           >

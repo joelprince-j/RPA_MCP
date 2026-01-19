@@ -310,6 +310,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
     set({ 
       steps: renumberedSteps,
       selectedStepId: null,
+      selectedStepIsAuth: false,
     });
     
     // Save the NEW state to history AFTER making changes
@@ -517,7 +518,13 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       ...step,
       stepId: index + 1,
     }));
-    set({ authSteps: renumberedSteps });
+    const { selectedStepId, selectedStepIsAuth } = get();
+    set({ 
+      authSteps: renumberedSteps,
+      ...(selectedStepIsAuth && selectedStepId === stepId
+        ? { selectedStepId: null, selectedStepIsAuth: false }
+        : {}),
+    });
     get().saveHistory();
   },
   setAuthEnabled: (enabled) => {
